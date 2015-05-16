@@ -3,6 +3,7 @@
     <script>
         var $j = jQuery.noConflict();
     </script>
+    <script src="pixi.dev.js"></script>
 </head>
 
 <body>
@@ -10,14 +11,15 @@
         
         // *** Initialize variables ***
         var score = 0; // how many tickets has the player won so far?
-        var sentTickets = 0; // how many tickets has the player sent this round?
-        var returnedTickets = 0; // how many tickets returned to the player this round?
-        var player2avatar = 1; // what image to use to represent Player 2 this round?
         var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
         var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
         var controllerCount = 0; // how many times has the player been Controller?
         var controllerMax = 15; // how many times should the player be Controller?
         var roundMax = 30; // how many rounds will the player play?
+        // importing a texture atlas created with texturepacker
+        var tileAtlas = ["https://s.qualtrics.com/ControlPanel/File.php?F=F_8vsEVrL4ZhiqHlz"];
+        // create a new loader
+        var loader = new PIXI.AssetLoader(tileAtlas);
         
         // *** Load Function ***
         // When the page loads, show the avatar selection interface
@@ -30,12 +32,34 @@
             $j("#avatarBox").hide();
         })
         
+        //begin load
+        function onTilesLoaded(){
+            chosenTiles=new Array();
+            // load the 30 tile images
+            for(i=0;i<30;i++){
+        	    chosenTiles.push(i,i);
+            }
+        	
+        }
+        
+        // display to the player how many tickets they are giving away
+        function outputUpdate(give) {
+            document.querySelector('#currentGiveValue').value = give;
+        }
+        
         // Play a round
         function playRound(round){
-            // Generate a random number from 10 to 15 that defines how long the
-            // player will wait for before Player 2 supposedly joins the game
-            var playerWaitTime = Math.floor(Math.random() * 5) + 10;
+            // Generate a random number from 10000 to 15000 that defines how
+            // many ms player waits before Player 2 supposedly joins the game
+            var playerWaitTime = Math.floor(Math.random() * 5000) + 10000;
             console.log(playerWaitTime);
+            
+            // randomly select an avatar for Player 2
+            var player2 = Math.floor(Math.random()*30);
+            console.log(player2);
+            
+            var sentTickets = 0; // how many tickets has the player sent this round?
+            var returnedTickets = 0; // how many tickets returned to the player this round?
             
             // is the player Controller this round? 0 = no; 1 = yes
             // first, initialize the variable to 0
@@ -52,12 +76,34 @@
             }
             console.log(controller);
             
+            
+            
             // When the round begins, hide the avatar selection and show the
             // player that they are assigned to Player 1
             $j("#selectAvatar").hide();
             $j("#matchingPlayers").show();
             $j("#matchRoundNumber").text(round);
             $j("#roundNumber").text(round);
+            
+            // tell the player whether they are the controller
+            if (controller == 1){
+                $j("#youAreNotController").hide();
+                $j("#youAreController").show();
+            } else {
+                $j("#youAreNotController").show();
+                $j("#youAreController").hide();
+            }
+            
+            // after 10-15 seconds, the round begins
+            setTimeout(function(){
+		$j("#matchingPlayers").hide();
+                $j("#giveInterface").show();
+                $j("#avatarBox").show();
+                $j("#scoreValue").text(score);
+                $j('#player2avatar').prepend(PIXI.Sprite.fromFrame(player2))
+                
+                
+	    },playerWaitTime);
             
         }
     </script>
@@ -70,17 +116,12 @@
       <br><br>
       <div id="message" style="width:80%;">
           <div id="giveInterface">
-              You have been given 10 raffle tickets.<br>
-              How many will you <span style="font-weight:bold;">give</span> to Player 2?<br>
+              You have been given 10 raffle tickets.<br><br>
+              How many tickets will you <span style="font-weight:bold;">give</span> to Player 2?<br><br>
               <div class="range-slider" data-slider>
-                  <input type="range" name="giveNumber" min=0 max=10 step=1 value=0 oninput="outputUpdate(value)">
-                      <output id=currentGiveValue>0</output>
-                      <script>
-                          function outputUpdate(give) {
-                              document.querySelector('#volume').value = give;
-                          }
-                      </script>
-              </div>
+                  <input type="range" id="giveNumber" min=0 max=10 step=1 value=0 oninput="outputUpdate(value)">
+                      <output for="giveNumber" id=currentGiveValue>0</output>
+              </div><br>
               <input id="giveButton" type="submit" value="Send">
           </div>
           <div id="waitForReturn">
@@ -136,6 +177,9 @@
             <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J"></a>
           </div>
           <div id="matchingPlayers">
+              <span id="youAreController"><span style="font-weight:bold;">You will be Controller this round!</span> If you feel Player 2 plays unfairly, you will have the opportunity to punish them when the round is over.</span>
+              <span id="youAreNotController"><span style="font-weight:bold;">There will be no Controller this round.</span> The decisions made by both players will be final.</span>
+              <br><br>
               Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
               <progress id="matchingPlayers"></progress>
         </div>
