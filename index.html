@@ -41,13 +41,14 @@
             // first, initialize the variable to 0
             var controller = 0;
             // then, check if the number of rounds remaining is the same as
-            // the number of remaining times the player needs to be controller, make the
-            // player the controller. if not, randomize whether the player is
-            // controller.
-            if ( (roundMax - round + 1) <= (controllerMax - controllerCount)){
+            // the number of controller rounds remaining, make the player
+            // controller. if not, randomize whether the player is controller.
+            var roundsRemaining = roundMax - round + 1; // how many rounds remaining?
+            var controllersRemaining = controllerMax - controllerCount; // how many controller rounds remaining?
+            if ( roundsRemaining <= controllersRemaining){
                 controller = 1;
             } else if (controllerCount < controllerMax){
-                controller = Math.floor(Math.random() * 1) + 1;
+                controller = Math.round(Math.random() );
             }
             console.log(controller);
             
