@@ -1,45 +1,73 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+    </script>
 </head>
 
 <body>
-   <div id="gameboard">
-    <span id="roundTitle">Round: <span id="roundNumber"></span></span>
-    <div id="rightBox" style="float:right;">
-        <div id="scoreBox">Score<br><span id="scoreValue"></span></div>
-        <div id="avatarBox" >Player 2<br><span id="player2avatar"></span></div>
-    </div>
-    <div id="message" style="width:80%;">
-        <div id="giveInterface">
-            You have been given 10 raffle tickets.<br>
-            How many will you <span style="font-weight:bold;">give</span> to Player 2?<br>
-            <div class="range-slider" data-slider>
-                <input type="range" name="giveNumber" min=0 max=10 step=1 value=0 oninput="outputUpdate(value)">
-                    <output for=fader id=volume>0</output>
-                    <script>
-                        function outputUpdate(give) {
-                            document.querySelector('#volume').value = give;
-                        }
-                    </script>
-            </div>
-            <input id="giveButton" type="submit" value="Send">
-        </div>
-        <div id=waitForReturn">
-            Player 2 has received <span id="receiveNumber"></span> tickets.<br>
-            Waiting for Player 2 to move. . . .<br>
-            <progress id="waitingForPlayer2"></progress>
-        </div>
-        <div id="returnedTickets">
-            Player 2 has returned <span id="returnedNumber"></span> tickets to you.<br>
-            <div id="controllerOption">
+    <script>
+        
+        // *** Initialize variables ***
+        var round = 1; // what round is it?
+        var score = 0; // how many tickets has the player won so far?
+        var sentTickets = 0; // how many tickets has the player sent this round?
+        var returnedTickets = 0; // how many tickets returned to the player this round?
+        var controller = 0; // is the player Controller this round? 0 = no; 1 = yes
+        var player2avatar = 1; // what image to use to represent Player 2 this round?
+        var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
+        var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
+        
+        // *** Load Function *** 
+        $j(function(){
+            console.log("ready!");
+            $j("#giveInterface").hide();
+            $j("#waitForReturn").hide();
+            $j("#returnedTickets").hide();
+            $j("#matchingPlayers").hide();
+            $j("#avatarBox").hide();
+        })
+    </script>
+    <div id="gameboard">
+      <span id="roundTitle">Round: <span id="roundNumber"></span></span>
+      <div id="rightBox" style="float:right;">
+          <div id="scoreBox">Score<br><span id="scoreValue"></span></div>
+          <div id="avatarBox" >Player 2<br><span id="player2avatar"></span></div>
+      </div>
+      <div id="message" style="width:80%;">
+          <div id="giveInterface">
+              You have been given 10 raffle tickets.<br>
+              How many will you <span style="font-weight:bold;">give</span> to Player 2?<br>
+              <div class="range-slider" data-slider>
+                  <input type="range" name="giveNumber" min=0 max=10 step=1 value=0 oninput="outputUpdate(value)">
+                      <output for=fader id=volume>0</output>
+                      <script>
+                          function outputUpdate(give) {
+                              document.querySelector('#volume').value = give;
+                          }
+                      </script>
+              </div>
+              <input id="giveButton" type="submit" value="Send">
+          </div>
+          <div id="waitForReturn">
+              Player 2 has received <span id="receiveNumber"></span> tickets.<br>
+              Waiting for Player 2 to move. . . .<br>
+              <progress id="waitingForPlayer2"></progress>
+          </div>
+          <div id="returnedTickets">
+              Player 2 has returned <span id="returnedNumber"></span> tickets to you.<br>
+              <div id="controllerOption">
                 You may punish player 2 by taking away <span id="punishmentNumber"></span> of their tickets. Would you like to do this?<br>
-                <input id="punishButton" type="submit" value="Yes"><input id="notPunish" type="submit" value="No">
-            </div>
+                    <input id="punishButton" type="submit" value="Yes"><input id="notPunish" type="submit" value="No">
+              </div>
+          </div>
+          <div id="selectAvatar">
+            You have been assigned to the role of Player 1!<br>
+            Select an avatar to represent yourself in the game. This avatar will be shown to the players you are matched with.
+          </div>
+          <div id="matchingPlayers">
+              Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .
+              <progress id="matchingPlayers"></progress>
         </div>
-        <div id="selectAvatar">Select an avatar to represent yourself in the game. This avatar will be shown to the players you are matched with.</div>
-        <div id="matchingPlayers">
-            Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .
-            <progress id="matchingPlayers"></progress>
-    </div>
-   </div> 
+    </div> 
 </body>
