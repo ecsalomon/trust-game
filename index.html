@@ -17,12 +17,18 @@
         var roundMax = 4; // how many rounds will the player play?
         var round = 1; // what round is it?
         var controller = 0; // is the player the controller?
-        var punishmentCount = 0; // how many times has player punished Player 2?
+        var results = new Array; // an array of results from every round
+        var roundVars = {}; // an object of results from a single round
+        var qualtrics = false; // Are you using Qualtrics?
 
         
-        // what condition is the participant in? Use only one of these two!
-        // var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
-        var trainingCondition = Math.round(Math.random() ); // set training condition in game
+        // what condition is the participant in? 
+        if (qualtrics) {
+            var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
+        } else {
+            var trainingCondition = Math.round(Math.random() ); // set training condition in game
+        }
+        
         console.log("training condition " + trainingCondition);
             
         // file paths to all the avatars
@@ -82,19 +88,6 @@
             $j("#topBox").hide();
         })
         
-        function SpriteSheet(path, frameWidth, frameHeight) {
-            var image = new Image();
-            var framesPerRow;
-            
-            // calculate the number of frames in a row after the image loads
-            var self = this;
-            image.onload = function() {
-             framesPerRow = Math.floor(image.width / frameWidth);
-             };
-                
-            image.src = path;
-        }
-        
         // display to the player how many tickets they are giving away
         function outputUpdate(give) {
             document.querySelector('#currentGiveValue').value = give;
@@ -113,10 +106,27 @@
                 $j("#finalScore").text(score);
                 $j('#gameOver').show();
                 $j('#NextButton').show();
+                
+                console.log("Results, all: " + results[round-1]["punishes"]);
+                
+                // if using Qualtrics, save the variables to Qualtrics
+                if (qualtrics) {
+                    for (var i = 0; i < roundmax; i++) {
+                        var myObj = results[i];
+                        Qualtrics.SurveyEngine.setEmbeddedData('controller'+(i+1), myObj['isController']);
+                        Qualtrics.SurveyEngine.setEmbeddedData('gave'+(i+1), myObj['gives']);
+                        Qualtrics.SurveyEngine.setEmbeddedData('returned'+(i+1), myObj['returned']);
+                        Qualtrics.SurveyEngine.setEmbeddedData('punish'+(i+1), myObj['punishes']);
+                    }
+                }
+                
+                
+                
             } else {
                 // reset the slider 0
                 document.getElementById("giveNumber").value = 0;
-                $j("#currentGiveValue").text("0"); 
+                $j("#currentGiveValue").text("0");
+                
                 // Generate a random number from 10000 to 15000 that defines how
                 // many ms player waits before Player 2 supposedly joins the game
                 var playerWaitTime = Math.floor(Math.random() * 5000) + 10000;
@@ -143,7 +153,10 @@
                 } else if (controllerCount < controllerMax){
                     controller = Math.round(Math.random() );
                 }
-                console.log(controller);
+                
+                
+                roundVars["isController"] = controller;
+                console.log("Round: " + round + "; Results, controller: " + roundVars["isController"]);
                 
                 // if player is controller, increment controller counter
                 if (controller == 1){
@@ -172,7 +185,7 @@
                 
                 // after 10-15 seconds, the round begins
                 setTimeout(function(){
-                    score = score + 10;
+                    score = score + 100;
                     $j("#matchingPlayers").hide();
                     $j("#giveInterface").show();
                     $j("#avatarBox").show();
@@ -186,11 +199,15 @@
         // wait for player 2 to return tickets, give the controller the option to punish, and then end the round
         function returnTickets(){
             var ticketsGiven = document.getElementById("giveNumber").value; // how many tickets did player give?
-            console.log(ticketsGiven);
+            roundVars["gives"] = ticketsGiven;
+            console.log("Round: " + round + "; Results, gives: " + roundVars["gives"]);
+            
             
             if (ticketsGiven == 0){
                 $j("#giveInterface").hide();
                 $j("#noSharing").show();
+                roundVars["returned"] = ticketsGiven;
+                console.log("Round: " + round + "; Results, returned: " + roundVars["returned"]);
                 endRound(0);
             } else {
                 var tripleTickets = ticketsGiven * 3; // triple the number of tickets given
@@ -205,6 +222,9 @@
                 
                 
                 var returnAmount = Math.floor(tripleTickets * returnPercent); // how many tickets returned?
+                roundVars["returned"] = returnAmount;
+                console.log("Round: " + round + "; Results, returns: " + roundVars["returned"]);
+                
                 console.log(returnAmount);
                 var amountKept = tripleTickets - returnAmount;
                 var punishmentAmount = Math.round(amountKept / 3);
@@ -251,6 +271,11 @@
         // display the final results of the round and allow the player to end it
         function endRound(punished){
             
+            roundVars["punishes"] = punished;
+            console.log("Round: " + round + "; Results, punishes: " + roundVars["punishes"]);
+            results.push(roundVars);
+            
+            
             $j("#controllerOption").hide();
             round = round + 1;
             if (punished == 1){
@@ -261,6 +286,7 @@
                 console.log("punished not 1");
                 $j("#showEndButton").show();
             }
+        
         }
     </script>
     
@@ -274,10 +300,10 @@
       </div>
       <div id="message" style="width:80%;">
           <div id="giveInterface">
-              You have been given 10 raffle tickets.<br><br>
+              You have been given 100 raffle tickets.<br><br>
               How many tickets will you <span style="font-weight:bold;">give</span> to Player 2?<br><br>
               <div class="range-slider" data-slider>
-                  <input type="range" id="giveNumber" min=0 max=10 step=1 value=0 oninput="outputUpdate(value)">
+                  <input type="range" id="giveNumber" min=0 max=100 step=1 value=0 oninput="outputUpdate(value)">
                       <output for="giveNumber" id="currentGiveValue">0</output>
               </div><br>
               <a href="javascript:returnTickets()"><input id="giveButton" type="submit" value="Send"></a>
