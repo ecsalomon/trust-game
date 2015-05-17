@@ -1,0 +1,75 @@
+
+#gameboard {
+    width:480px;
+    height:500px;
+    background-color: #edf8b1;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #081d58;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #081d58;
+}
+
+#avatarGrid {
+    width: 450;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#topBox {
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;    
+}
+
+.avatarIcon {
+    width: 55px;
+    height: 55px;
+    margin: 4px;
+    padding: 4px;
+    background-color: white;
+}
+
+.infobox {
+    width:75px;
+    height:85px;
+    background-color: #253494;
+    border-style: solid;
+    border-width: 5px;
+    border-color: #081d58;
+    padding: 5px;
+    margin: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffd9;
+    float: left;
+    text-align: center;
+}
+
+.boxContents {
+    width:60px;
+    height:55px;
+    background-color: #ffffd9;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #081d58;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.textContents {
+    margin-top: 11px;
+}
+
+#player2image {
+    width: 55px;
+    height: 55px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+    background-color: #ffffd9;
+}
+
