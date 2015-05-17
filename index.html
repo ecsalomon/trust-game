@@ -3,7 +3,6 @@
     <script>
         var $j = jQuery.noConflict();
     </script>
-    <script src="pixi.dev.js"></script>
 </head>
 
 <body>
@@ -12,10 +11,15 @@
         // *** Initialize variables ***
         var score = 0; // how many tickets has the player won so far?
         var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
-        var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
         var controllerCount = 0; // how many times has the player been Controller?
         var controllerMax = 15; // how many times should the player be Controller?
         var roundMax = 30; // how many rounds will the player play?
+        var round = 1; // what round is it?
+        var controller = 0; // is the player the controller?
+        
+        // what condition is the participant in? Use only one of these two!
+        // var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
+        var trainingCondition = Math.round(Math.random() ); // set training condition in game
             
         // file paths to all the avatars
         var avatar1 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX";
@@ -82,8 +86,8 @@
             document.querySelector('#currentGiveValue').value = give;
         }
         
-        // Play a round
-        function playRound(round){
+        // Start a round
+        function startRound(){
             // Generate a random number from 10000 to 15000 that defines how
             // many ms player waits before Player 2 supposedly joins the game
             var playerWaitTime = Math.floor(Math.random() * 5000) + 10000;
@@ -99,7 +103,7 @@
             
             // is the player Controller this round? 0 = no; 1 = yes
             // first, initialize the variable to 0
-            var controller = 0;
+            controller = 0;
             // then, check if the number of rounds remaining is the same as
             // the number of controller rounds remaining, make the player
             // controller. if not, randomize whether the player is controller.
@@ -117,6 +121,7 @@
             // When the round begins, hide the avatar selection and show the
             // player that they are assigned to Player 1
             $j("#selectAvatar").hide();
+            $j("#avatarBox").hide();
             $j("#matchingPlayers").show();
             $j("#matchRoundNumber").text(round);
             $j("#roundNumber").text(round);
@@ -143,13 +148,42 @@
 	    },playerWaitTime);
             
         }
+        
+        function endRound(){
+            var ticketsGiven = document.getElementById("giveNumber").value; // how many tickets did player give?
+            console.log(ticketsGiven);
+            var tripleTickets = ticketsGiven * 3; // triple the number of tickets given
+            var returnPercent = Math.random() * .2 + .4; // default percent of tickets returned by Player 2
+            
+            // if the player is in the association condition and is controller,
+            // change the number of tickets returned to a lower value
+            if (controller == 1 & trainingCondition == 0){
+                returnPercent == Math.random() * .2;
+            }
+            
+            var returnAmount = Math.floor(tripleTickets * returnPercent); // how many tickets returned?
+            console.log(returnAmount);
+            
+            var punishmentAmount = Math.round(tripleTickets / 3);
+            
+            
+             // Generate a random number from 10000 to 20000 that defines how
+            // many ms player waits before Player 2 supposedly returns tickets
+            var playerWaitTime = Math.floor(Math.random() * 10000) + 10000;
+            console.log(playerWaitTime);
+            
+            $j("#giveInterface").hide();
+            $j("#receiveNumber").text(tripleTickets);
+            $j("#waitForReturn").show();
+            
+        }
     </script>
     
     
     <div id="gameboard">
-      <span id="roundTitle">Round: <span id="roundNumber"></span></span>
       <div id="rightBox" style="float:right;">
-          <div id="scoreBox">Score<br><span id="scoreValue"></span></div>
+          <div id="roundTitle">Round:<br><span id="roundNumber"></span></div>
+          <div id="scoreBox">Score:<br><span id="scoreValue"></span></div>
           <div id="avatarBox" >Player 2<br><img id="player2image"></div>
       </div>
       <br><br>
@@ -161,7 +195,7 @@
                   <input type="range" id="giveNumber" min=0 max=10 step=1 value=0 oninput="outputUpdate(value)">
                       <output for="giveNumber" id=currentGiveValue>0</output>
               </div><br>
-              <input id="giveButton" type="submit" value="Send">
+              <a href="javascript:endRound()"><input id="giveButton" type="submit" value="Send"></a>
           </div>
           <div id="waitForReturn">
               Player 2 has received <span id="receiveNumber"></span> tickets.<br>
@@ -180,40 +214,40 @@
             You have been assigned to the role of Player 1!<br>
             Select an avatar to represent yourself in the game. This avatar will be shown to the players you are matched with.<br><br>
             <!-- Row 1 of avatars -->
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ"></a><br><br>
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ"></a><br><br>
             <!-- Row 2 of avatars -->
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h"></a><br>&nbsp;<br>
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h"></a><br>&nbsp;<br>
             <!-- Row 3 of avatars -->
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5"></a><br><br>
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5"></a><br><br>
             <!-- Row 4 of avatars -->
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn"></a><br><br>
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn"></a><br><br>
             <!-- Row 5 of avatars -->
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh"></a>&nbsp;
-            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J"></a>
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh"></a>&nbsp;
+            <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J"></a>
           </div>
           <div id="matchingPlayers">
               <span id="youAreController"><span style="font-weight:bold;">You will be Controller this round!</span> If you feel Player 2 plays unfairly, you will have the opportunity to punish them when the round is over.</span>
