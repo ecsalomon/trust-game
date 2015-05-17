@@ -139,6 +139,11 @@
                 }
                 console.log(controller);
                 
+                // if player is controller, increment controller counter
+                if (controller == 1){
+                    controller = controller + 1;
+                }
+                
                 // When the round begins, hide the avatar selection and show the
                 // player that they are assigned to Player 1
                 $j("#selectAvatar").hide();
