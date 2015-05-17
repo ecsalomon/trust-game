@@ -18,6 +18,7 @@
         var round = 1; // what round is it?
         var controller = 0; // is the player the controller?
         var punishmentCount = 0; // how many times has player punished Player 2?
+
         
         // what condition is the participant in? Use only one of these two!
         // var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
@@ -284,7 +285,7 @@
           <div id="waitForReturn">
               Player 2 has received <span id="receiveNumber"></span> tickets.<br><br>
               Waiting for Player 2 to move. . . .<br><br>
-              <progress id="waitingForPlayer2"></progress>
+              <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="waitingForPlayer2">
           </div>
           <div id="returnedTickets">
               Player 2 has returned <span id="returnedNumber"></span> tickets to you.<br><br>
@@ -348,7 +349,7 @@
               <span id="youAreNotController"><span style="font-weight:bold;">There will be no Controller this round.</span> The decisions made by both players will be final.</span>
               <br><br>
               Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
-              <progress id="matchingPlayers"></progress>
+              <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="matchingPlayers">
           </div>
           <div id="gameOver">
             You've finished the game!<br><br>
