@@ -16,10 +16,41 @@
         var controllerCount = 0; // how many times has the player been Controller?
         var controllerMax = 15; // how many times should the player be Controller?
         var roundMax = 30; // how many rounds will the player play?
-        // importing a texture atlas created with texturepacker
-        var tileAtlas = ["https://s.qualtrics.com/ControlPanel/File.php?F=F_8vsEVrL4ZhiqHlz"];
-        // create a new loader
-        var loader = new PIXI.AssetLoader(tileAtlas);
+            
+        // file paths to all the avatars
+        var avatar1 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX";
+        var avatar2 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn";
+        var avatar3 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT";
+        var avatar4 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr";
+        var avatar5 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn";
+        var avatar6 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ";
+        var avatar7 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD";
+        var avatar8 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx";
+        var avatar9 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv";
+        var avatar10 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN";
+        var avatar11 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ";
+        var avatar12 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h";
+        var avatar13 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd";
+        var avatar14 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5";
+        var avatar15 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR";
+        var avatar16 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL";
+        var avatar17 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp";
+        var avatar18 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5";
+        var avatar19 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1";
+        var avatar20 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP";
+        var avatar21 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn";
+        var avatar22 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn";
+        var avatar23 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X";
+        var avatar24 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn";
+        var avatar25 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT";
+        var avatar26 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR";
+        var avatar27 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF";
+        var avatar28 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1";
+        var avatar29 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh";
+        var avatar30 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J";
+       
+        // create an array of the file paths
+        var avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, avatar7, avatar8, avatar9, avatar10, avatar11, avatar12, avatar13, avatar14, avatar15, avatar16, avatar17, avatar18, avatar19, avatar20, avatar21, avatar22, avatar23, avatar24, avatar25, avatar26, avatar27, avatar28, avatar29, avatar30];
         
         // *** Load Function ***
         // When the page loads, show the avatar selection interface
@@ -30,16 +61,20 @@
             $j("#returnedTickets").hide();
             $j("#matchingPlayers").hide();
             $j("#avatarBox").hide();
+            $j("#player2image").hide();
         })
         
-        //begin load
-        function onTilesLoaded(){
-            chosenTiles=new Array();
-            // load the 30 tile images
-            for(i=0;i<30;i++){
-        	    chosenTiles.push(i,i);
-            }
-        	
+        function SpriteSheet(path, frameWidth, frameHeight) {
+            var image = new Image();
+            var framesPerRow;
+            
+            // calculate the number of frames in a row after the image loads
+            var self = this;
+            image.onload = function() {
+             framesPerRow = Math.floor(image.width / frameWidth);
+             };
+                
+            image.src = path;
         }
         
         // display to the player how many tickets they are giving away
@@ -56,6 +91,7 @@
             
             // randomly select an avatar for Player 2
             var player2 = Math.floor(Math.random()*30);
+            var player2uri = avatars[player2];
             console.log(player2);
             
             var sentTickets = 0; // how many tickets has the player sent this round?
@@ -100,18 +136,21 @@
                 $j("#giveInterface").show();
                 $j("#avatarBox").show();
                 $j("#scoreValue").text(score);
-                $j('#player2avatar').prepend(PIXI.Sprite.fromFrame(player2))
+                $j('#player2image').attr('src', player2uri);
+                $j('#player2image').show();
                 
                 
 	    },playerWaitTime);
             
         }
     </script>
+    
+    
     <div id="gameboard">
       <span id="roundTitle">Round: <span id="roundNumber"></span></span>
       <div id="rightBox" style="float:right;">
           <div id="scoreBox">Score<br><span id="scoreValue"></span></div>
-          <div id="avatarBox" >Player 2<br><span id="player2avatar"></span></div>
+          <div id="avatarBox" >Player 2<br><img id="player2image"></div>
       </div>
       <br><br>
       <div id="message" style="width:80%;">
@@ -153,7 +192,7 @@
             <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv"></a>&nbsp;
             <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN"></a>&nbsp;
             <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ"></a>&nbsp;
-            <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h"><br>&nbsp;<br>
+            <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h"></a><br>&nbsp;<br>
             <!-- Row 3 of avatars -->
             <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd"></a>&nbsp;
             <a href="javascript:playRound(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5"></a>&nbsp;
