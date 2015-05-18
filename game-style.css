@@ -18,7 +18,7 @@
 }
 
 #topBox {
-    width: 350px;
+    width: 465px;
     margin-left: auto;
     margin-right: auto;    
 }
@@ -64,7 +64,7 @@
     margin-top: 11px;
 }
 
-#player2image {
+.playerImage {
     width: 55px;
     height: 55px;
     margin-left: auto;

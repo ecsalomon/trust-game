@@ -32,39 +32,38 @@
         console.log("training condition " + trainingCondition);
             
         // file paths to all the avatars
-        var avatar1 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX";
-        var avatar2 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn";
-        var avatar3 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT";
-        var avatar4 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr";
-        var avatar5 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn";
-        var avatar6 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ";
-        var avatar7 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD";
-        var avatar8 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx";
-        var avatar9 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv";
-        var avatar10 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN";
-        var avatar11 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ";
-        var avatar12 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h";
-        var avatar13 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd";
-        var avatar14 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5";
-        var avatar15 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR";
-        var avatar16 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL";
-        var avatar17 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp";
-        var avatar18 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5";
-        var avatar19 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1";
-        var avatar20 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP";
-        var avatar21 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn";
-        var avatar22 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn";
-        var avatar23 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X";
-        var avatar24 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn";
-        var avatar25 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT";
-        var avatar26 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR";
-        var avatar27 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF";
-        var avatar28 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1";
-        var avatar29 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh";
-        var avatar30 = "https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J";
+        var avatarFiles = new Array();
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh");
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J");
        
-        // create an array of the file paths
-        var avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, avatar7, avatar8, avatar9, avatar10, avatar11, avatar12, avatar13, avatar14, avatar15, avatar16, avatar17, avatar18, avatar19, avatar20, avatar21, avatar22, avatar23, avatar24, avatar25, avatar26, avatar27, avatar28, avatar29, avatar30];
         
         // *** Load Function ***
         // When the page loads, show the avatar selection interface
@@ -86,11 +85,19 @@
             $j("#roundBox").hide();
             $j("#scoreBox").hide();
             $j("#topBox").hide();
+            $j("#playerBox").hide();
         })
         
         // display to the player how many tickets they are giving away
         function outputUpdate(give) {
             document.querySelector('#currentGiveValue').value = give;
+        }
+        
+        // show player's avatar
+        function pickAvatar(whichAvatar) {
+            var player1uri = avatarFiles[whichAvatar];
+            $j('#player1image').attr('src', player1uri);
+            startRound();
         }
         
         // Start a round
@@ -134,8 +141,7 @@
             
                 // randomly select an avatar for Player 2
                 var player2 = Math.floor(Math.random()*30);
-                var player2uri = avatars[player2];
-                console.log(player2);
+                var player2uri = avatarFiles[player2];
                 
                 var sentTickets = 0; // how many tickets has the player sent this round?
                 var returnedTickets = 0; // how many tickets returned to the player this round?
@@ -173,6 +179,7 @@
                 $j("#roundNumber").text(round);
                 $j("#roundBox").show();
                 $j("#scoreBox").show();
+                $j("#playerBox").show();
                 
                 // tell the player whether they are the controller
                 if (controller == 1){
@@ -293,9 +300,10 @@
     
     <div id="gameboard">
       <div id="topBox">
+          <div id="playerBox" class="infoBox"><div class="boxTitle">You</div><div class="boxContents"><img id="player1image" class="playerImage"></div></div>
           <div id="roundBox" class="infoBox"><div class="boxTitle">Round</div><div class="boxContents"><div class="textContents" id="roundNumber"></div></div></div>
           <div id="scoreBox" class="infoBox"><div class="boxTitle">Tickets</div><div class="boxContents"><div class="textContents" id="scoreValue"></div></div></div>
-          <div id="avatarBox" class="infoBox"><div class="boxTitle">Player 2</div><div class="boxContents"><img id="player2image"></div></div>
+          <div id="avatarBox" class="infoBox"><div class="boxTitle">Player 2</div><div class="boxContents"><img id="player2image" class="playerImage"></div></div>
           <br><br><br><br><br><br><br><br>
       </div>
       <div id="message" style="width:80%;">
@@ -334,40 +342,40 @@
             Select an avatar to represent yourself in the game.<br>Your avatar will be shown to the players you are matched with.<br><br>
             <div id="avatarGrid">
                 <!-- Row 1 of avatars -->
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(2)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(3)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(4)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(5)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ" class="avatarIcon"></a>
                 <!-- Row 2 of avatars -->
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(6)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(7)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(8)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(9)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(10)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(11)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h" class="avatarIcon"></a>
                 <!-- Row 3 of avatars -->
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(12)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(13)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(14)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(15)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(16)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(17)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5" class="avatarIcon"></a>
                 <!-- Row 4 of avatars -->
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(18)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(19)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(20)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(21)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(22)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(23)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn" class="avatarIcon"></a>
                 <!-- Row 5 of avatars -->
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh" class="avatarIcon"></a>
-                <a href="javascript:startRound()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(24)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(25)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(26)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(27)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(28)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh" class="avatarIcon"></a>
+                <a href="javascript:pickAvatar(29)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J" class="avatarIcon"></a>
             </div>
           </div>
           <div id="matchingPlayers">
