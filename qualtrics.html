@@ -2,7 +2,7 @@
 <!-- Begin code that goes into the JavaScript editor for the question --> 
 Qualtrics.SurveyEngine.addOnload(function()
 {		
-	console.log("ready!");
+            console.log("ready!");
             $j("#giveInterface").hide();
             $j("#waitForReturn").hide();
             $j("#returnedTickets").hide();
@@ -58,7 +58,7 @@ Qualtrics.SurveyEngine.addOnload(function()
         var controller = 0; // is the player the controller?
         var results = new Array; // an array of results from every round
         var roundVars = {}; // an object of results from a single round
-        var qualtrics = false; // Are you using Qualtrics?
+        var qualtrics = true; // Are you using Qualtrics?
         var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_";
 
         
