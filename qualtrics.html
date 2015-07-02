@@ -1,0 +1,429 @@
+
+<!-- Begin code that goes into the JavaScript editor for the question --> 
+Qualtrics.SurveyEngine.addOnload(function()
+{		
+	console.log("ready!");
+            $j("#giveInterface").hide();
+            $j("#waitForReturn").hide();
+            $j("#returnedTickets").hide();
+            $j("#matchingPlayers").hide();
+            $j("#avatarBox").hide();
+            $j("#player2image").hide();
+            $j('#NextButton').hide();
+            $j('#gameOver').hide();
+            $j("#punishmentSuccess").hide();
+            $j("#controllerOption").hide();
+            $j("#scoreValue").text(score);
+            $j("#showEndButton").hide();
+            $j("#noSharing").hide();
+            $j("#roundBox").hide();
+            $j("#scoreBox").hide();
+            $j("#topBox").hide();
+            $j("#playerBox").hide();
+	    $j("fieldset > .QuestionBody").hide();
+       
+        // Save the results to Qualtrics   
+	this.questionclick = function(event,element){
+		if(element.type == 'radio')
+		{
+			
+                    for (var i = 0; i < roundMax; i++) {
+                        var myObj = results[i];
+			console.log(myObj);
+			var var1 = 'controller'+(i+1);
+			var var2 = 'gave'+(i+1);
+			var var3 = 'returned'+(i+1);
+			var var4 = 'punish'+(i+1);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var1, myObj['isController']);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var2, myObj['gives']);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var3, myObj['returned']);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var4, myObj['punishes']);
+                    }
+                    Qualtrics.SurveyEngine.setEmbeddedData('score', 5);
+                    this.clickNextButton();
+		}
+	}
+ 
+});
+
+
+
+ // *** Initialize variables ***
+        var score = 0; // how many tickets has the player won so far?
+        var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
+        var controllerCount = 0; // how many times has the player been Controller?
+        var controllerMax = 10; // how many times should the player be Controller?
+        var roundMax = 2; // how many rounds will the player play?
+        var round = 1; // what round is it?
+        var controller = 0; // is the player the controller?
+        var results = new Array; // an array of results from every round
+        var roundVars = {}; // an object of results from a single round
+        var qualtrics = false; // Are you using Qualtrics?
+        var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_";
+
+        
+        // what condition is the participant in? 
+        if (!qualtrics) {
+            var trainingCondition = Math.round(Math.random() ); // set training condition in game
+        }
+        
+        console.log("training condition " + trainingCondition);
+            
+        // file paths to all the avatars
+        var avatarFiles = new Array();
+        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX");
+        avatarFiles.push(root+"a8E4fq4HMIw3wRn");
+        avatarFiles.push(root+"41qtXpnDxiLoTnT");
+        avatarFiles.push(root+"57M3YRh0kfWpdpr");
+        avatarFiles.push(root+"3sWu55iUZaIVoJn");
+        avatarFiles.push(root+"e3su4OeukxIY9CZ");
+        avatarFiles.push(root+"0oiJckoSOfpKTnD");
+        avatarFiles.push(root+"9KuZG4ekZd4UWGx");
+        avatarFiles.push(root+"eX8CjocdADHCYdv");
+        avatarFiles.push(root+"9RGuX0mrqkvMHYN");
+        avatarFiles.push(root+"3BCvo7dbIcMxLeZ");
+        avatarFiles.push(root+"0jOCzPpysN3F02h");
+        avatarFiles.push(root+"cHZpTL2OKihmxKd");
+        avatarFiles.push(root+"5osYMdT6CxqEGc5");
+        avatarFiles.push(root+"dnaeU4f35tPXfaR");
+        avatarFiles.push(root+"b2Z4JXCknJPFBrL");
+        avatarFiles.push(root+"b2urm5wlLyXBPcp");
+        avatarFiles.push(root+"8kLN8v8UlC6NoQ5");
+        avatarFiles.push(root+"5vZBKB7NkJ1mjs1");
+        avatarFiles.push(root+"1ZddqNgJpNe5afP");
+        avatarFiles.push(root+"9zC1P1OSQ05U3fn");
+        avatarFiles.push(root+"8IbWG9VRYKB3Dbn");
+        avatarFiles.push(root+"5orljVA2e8OIa7X");
+        avatarFiles.push(root+"5swzD2G4puy2fDn");
+        avatarFiles.push(root+"9vu3Mfg7NUSyaJT");
+        avatarFiles.push(root+"3IBZ3muYDPZqDKR");
+        avatarFiles.push(root+"2nLEiQXvtriNBMF");
+        avatarFiles.push(root+"0PzlS9rV8wBfWS1");
+        avatarFiles.push(root+"5guGfZ9AsYZZhQh");
+        avatarFiles.push(root+"1HN5ae178prwa8J");
+
+	// show player's avatar
+        function pickAvatar(whichAvatar) {
+            var player1uri = avatarFiles[whichAvatar];
+            $j('#player1image').attr('src', player1uri);
+            startRound();
+        }
+
+// Start a round
+        function startRound(){
+            // if the game is over, show the continue button and let the player leave
+            // otherwise, start a new round of the game
+            $j("#returnedTickets").hide();
+            $j("#punishmentSuccess").hide();
+            $j("#showEndButton").hide();
+            $j("#noSharing").hide();
+            if (round > roundMax){
+                $j("#topBox").hide();
+                $j("#finalScore").text(score);
+                $j('#gameOver').show();
+                $j("fieldset > .QuestionBody").show();
+                
+                
+                
+            } else {
+                // reset the slider 0
+                document.getElementById("giveNumber").value = 0;
+                $j("#currentGiveValue").text("0");
+                
+                // Generate a random number that defines how
+                // many ms player waits before Player 2 supposedly joins the game
+                var playerWaitTime = Math.floor(Math.random() * 1000) + 2500;
+                console.log(playerWaitTime);
+            
+                // randomly select an avatar for Player 2
+                var player2 = Math.floor(Math.random()*30);
+                var player2uri = avatarFiles[player2];
+                
+                var sentTickets = 0; // how many tickets has the player sent this round?
+                var returnedTickets = 0; // how many tickets returned to the player this round?
+                
+                // is the player Controller this round? 0 = no; 1 = yes
+                // first, initialize the variable to 0
+                controller = 0;
+                // then, check if the number of rounds remaining is the same as
+                // the number of controller rounds remaining, make the player
+                // controller. if not, randomize whether the player is controller.
+                var roundsRemaining = roundMax - round + 1; // how many rounds remaining?
+                var controllersRemaining = controllerMax - controllerCount; // how many controller rounds remaining?
+                if ( roundsRemaining <= controllersRemaining){
+                    controller = 1;
+                } else if (controllerCount < controllerMax){
+                    controller = Math.round(Math.random() );
+                }
+                
+                
+                roundVars["isController"] = controller;
+                console.log("Round: " + round + "; Results, controller: " + roundVars["isController"]);
+                
+                // if player is controller, increment controller counter
+                if (controller == 1){
+                    controllerCount = controllerCount + 1;
+                }
+                
+                // When the round begins, hide the avatar selection and show the
+                // player that they are assigned to Player 1
+                $j("#topBox").show();
+                $j("#selectAvatar").hide();
+                $j("#avatarBox").hide();
+                $j("#matchingPlayers").show();
+                $j("#matchRoundNumber").text(round);
+                $j("#roundNumber").text(round);
+                $j("#roundBox").show();
+                $j("#scoreBox").show();
+                $j("#playerBox").show();
+                
+                // tell the player whether they are the controller
+                if (controller == 1){
+                    $j("#youAreNotController").hide();
+                    $j("#youAreController").show();
+                } else {
+                    $j("#youAreNotController").show();
+                    $j("#youAreController").hide();
+                }
+                
+                // after 10-15 seconds, the round begins
+                setTimeout(function(){
+                    score = score + 100;
+                    $j("#matchingPlayers").hide();
+                    $j("#giveInterface").show();
+                    $j("#avatarBox").show();
+                    $j("#scoreValue").text(score);
+                    $j('#player2image').attr('src', player2uri);
+                    $j('#player2image').show();
+                },playerWaitTime);   
+            }
+        }
+
+    // display to the player how many tickets they are giving away
+        function outputUpdate(give) {
+            document.querySelector('#currentGiveValue').value = give;
+        }
+        
+        
+        
+        
+        
+        // wait for player 2 to return tickets, give the controller the option to punish, and then end the round
+        function returnTickets(){
+            var ticketsGiven = document.getElementById("giveNumber").value; // how many tickets did player give?
+            roundVars["gives"] = ticketsGiven;
+            console.log("Round: " + round + "; Results, gives: " + roundVars["gives"]);
+            
+            
+            if (ticketsGiven == 0){
+                $j("#giveInterface").hide();
+                $j("#noSharing").show();
+                roundVars["returned"] = ticketsGiven;
+                console.log("Round: " + round + "; Results, returned: " + roundVars["returned"]);
+                endRound(0);
+            } else {
+                var tripleTickets = ticketsGiven * 3; // triple the number of tickets given
+                var returnPercent = Math.random() * .2 + .4; // default percent of tickets returned by Player 2
+                
+                // if the player is in the association condition and is controller,
+                // change the number of tickets returned to a lower value
+                if (controller == 1 & trainingCondition == 1){
+                    returnPercent = Math.random() * .2;
+                }
+                
+                
+                
+                var returnAmount = Math.floor(tripleTickets * returnPercent); // how many tickets returned?
+                roundVars["returned"] = returnAmount;
+                console.log("Round: " + round + "; Results, returns: " + roundVars["returned"]);
+                
+                console.log(returnAmount);
+                var amountKept = tripleTickets - returnAmount;
+                var punishmentAmount = Math.round(amountKept / 3);
+                
+                
+                // Generate a random number from 10000 to 20000 that defines how
+                // many ms player waits before Player 2 supposedly returns tickets
+                var playerWaitTime = Math.floor(Math.random() * 2500) + 2500;
+                console.log(playerWaitTime);
+                
+                score = score - ticketsGiven;
+                $j("#scoreValue").text(score);
+                
+                $j("#giveInterface").hide();
+                $j("#receiveNumber").text(tripleTickets);
+                $j("#waitForReturn").show();
+                
+                // after 10-15 seconds, player 2 sends tickets back
+                setTimeout(function(){
+                    score = score + returnAmount;
+                    $j("#scoreValue").text(score);
+                    $j("#waitForReturn").hide();
+                    $j("#returnedNumber").text(returnAmount);
+                    $j("#punishmentNumber").text(punishmentAmount);
+                    $j("#returnedTickets").show();
+                    $j("#scoreValue").text(score);
+                    $j("#showEndButton").hide();
+                    
+                    // if the player is the controller, give option to punish;
+                    // otherwise, end the round
+                    if (controller == 1){
+                        $j("punishmentNumber").text(punishmentAmount);
+                        $j("lostNumber").text(punishmentAmount);
+                        $j("#controllerOption").show();
+                    } else {
+                        endRound(0);
+                    }
+                },playerWaitTime);
+            }
+            
+            
+        }
+        
+        // display the final results of the round and allow the player to end it
+        function endRound(punished){
+            
+            roundVars["punishes"] = punished;
+            console.log("Round: " + round + "; Results, punishes: " + roundVars["punishes"]);
+            results.push(roundVars);
+            
+            
+            $j("#controllerOption").hide();
+            round = round + 1;
+            if (punished == 1){
+                $j("#controllerOption").hide();
+                $j("#showEndButton").show();
+                $j("#punishmentSuccess").show();
+            } else {
+                console.log("punished not 1");
+                $j("#showEndButton").show();
+            }
+        
+        }
+         
+<!-- End code that goes into the JavaScript editor for the question -->
+
+
+
+<!-- Begin question text -->    
+    
+<div id="gameboard" style="width:480px; height:520px; background-color: #edf8b1; border-style: solid; border-width: 5px; border-color: #081d58; padding: 10px; font-family: Arial, Helvetica, sans-serif; color: #081d58;">
+      <div id="topBox" style="width: 465px; margin-left: auto; margin-right: auto;">
+          <div id="playerBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+            <div class="boxTitle">You</div>
+            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
+                <img id="player1image" class="playerImage">
+            </div>
+          </div>
+          <div id="roundBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+            <div class="boxTitle">Round</div>
+            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
+                <div class="textContents" id="roundNumber" style="margin-top: 11px;"></div>
+            </div>
+          </div>
+          <div id="scoreBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+            <div class="boxTitle">Tickets</div>
+            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: x-large;">
+                <div class="textContents" id="scoreValue" style="margin-top: 11px;"></div>
+            </div>
+          </div>
+          <div id="avatarBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+            <div class="boxTitle">Player 2</div>
+            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
+                <img id="player2image" class="playerImage">
+            </div>
+          </div>
+          <br><br><br><br><br><br><br><br>
+      </div>
+      <div id="message" style="width:80%;">
+          <div id="giveInterface">
+              You have been given 100 raffle tickets.<br><br>
+              How many tickets will you <span style="font-weight:bold;">give</span> to Player 2?<br><br>
+              <div class="range-slider" data-slider>
+                  <input type="range" id="giveNumber" min=0 max=100 step=1 value=0 oninput="outputUpdate(value)">
+                      <output for="giveNumber" id="currentGiveValue">0</output>
+              </div><br>
+              <a href="javascript:returnTickets()">
+                <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_bCMaxwrks4uUKcl">
+              </a>
+          </div>
+          <div id="waitForReturn">
+              Player 2 has received <span id="receiveNumber"></span> tickets.<br><br>
+              Waiting for Player 2 to move. . . .<br><br>
+              <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="waitingForPlayer2">
+          </div>
+          <div id="returnedTickets">
+              Player 2 has returned <span id="returnedNumber"></span> tickets to you.<br><br>
+              <div id="controllerOption">
+                You may punish Player 2 by taking away <span id="punishmentNumber"></span> of their tickets. Would you like to do this?<br>
+                    <a href="javascript:endRound(1)">
+                        <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_428JoN2ysMi54lT" style="padding: 5px;"></a>&nbsp;<a href="javascript:endRound(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_bDaZOz1sgiQS101" style="padding: 5px;"></a>
+              </div>
+          </div>
+          <div id="showEndButton">
+            <div id="noSharing">You kept all of your tickets.</div><br>
+            <div id="punishmentSuccess">Player 2 has lost tickets!</div><br>
+            Press the button to end this round.<br><br>
+            <a href="javascript:startRound(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5iJjE6rhiUxEqpf"></a>
+          </div>
+              
+          </div>
+          
+          <div id="selectAvatar">
+            <br>You have been assigned to the role of <span style="font-weight:bold;">Player 1</span>!<br><br>
+            Select an avatar to represent yourself in the game.<br>Your avatar will be shown to the players you are matched with.<br><br>
+            <div id="avatarGrid">
+                
+                <a href="javascript:pickAvatar(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(1)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_a8E4fq4HMIw3wRn" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(2)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_41qtXpnDxiLoTnT" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(3)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_57M3YRh0kfWpdpr" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(4)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3sWu55iUZaIVoJn" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(5)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_e3su4OeukxIY9CZ" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                
+                <a href="javascript:pickAvatar(6)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0oiJckoSOfpKTnD" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(7)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9KuZG4ekZd4UWGx" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(8)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_eX8CjocdADHCYdv" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(9)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9RGuX0mrqkvMHYN" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(10)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3BCvo7dbIcMxLeZ" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(11)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0jOCzPpysN3F02h" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                
+                <a href="javascript:pickAvatar(12)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cHZpTL2OKihmxKd" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(13)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5osYMdT6CxqEGc5" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(14)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_dnaeU4f35tPXfaR" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(15)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2Z4JXCknJPFBrL" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(16)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_b2urm5wlLyXBPcp" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(17)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8kLN8v8UlC6NoQ5" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                
+                <a href="javascript:pickAvatar(18)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5vZBKB7NkJ1mjs1" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(19)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1ZddqNgJpNe5afP" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(20)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9zC1P1OSQ05U3fn" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(21)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_8IbWG9VRYKB3Dbn" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(22)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5orljVA2e8OIa7X" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(23)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5swzD2G4puy2fDn" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                
+                <a href="javascript:pickAvatar(24)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_9vu3Mfg7NUSyaJT" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(25)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3IBZ3muYDPZqDKR" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(26)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_2nLEiQXvtriNBMF" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(27)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_0PzlS9rV8wBfWS1" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(28)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5guGfZ9AsYZZhQh" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+                <a href="javascript:pickAvatar(29)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
+            </div>
+          </div>
+          <div id="matchingPlayers">
+              <span id="youAreController"><span style="font-weight:bold;">You will be Controller this round!</span> If you feel Player 2 plays unfairly, you will have the opportunity to punish them when the round is over.</span>
+              <span id="youAreNotController"><span style="font-weight:bold;">There will be no Controller this round.</span> The decisions made by both players will be final.</span>
+              <br><br>
+              Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
+              <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="matchingPlayers">
+          </div>
+          <div id="gameOver">
+            You've finished the game!<br><br>
+            You have earned <span id="finalScore"></span> tickets for the $50 raffle!<br><br>
+            Press the continue button at the bottom of the page to end the game and continue with the survey.<br><br>
+          </div>
+        </div>
+    </div>
+    <div id="imageCredit"><div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0.</a> <a href="http://www.flaticon.com/packs/cute-animals">Available here.</a></div>
+<!-- End question text -->    
+    
