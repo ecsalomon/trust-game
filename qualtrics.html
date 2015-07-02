@@ -310,26 +310,26 @@ Qualtrics.SurveyEngine.addOnload(function()
 <!-- Begin question text -->    
     
 <div id="gameboard" style="width:480px; height:520px; background-color: #edf8b1; border-style: solid; border-width: 5px; border-color: #081d58; padding: 10px; font-family: Arial, Helvetica, sans-serif; color: #081d58;">
-      <div id="topBox" style="width: 465px; margin-left: auto; margin-right: auto;">
-          <div id="playerBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+      <div id="topBox" style="display:none; width: 465px; margin-left: auto; margin-right: auto;">
+          <div id="playerBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">You</div>
             <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
                 <img id="player1image" class="playerImage">
             </div>
           </div>
-          <div id="roundBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+          <div id="roundBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">Round</div>
             <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
                 <div class="textContents" id="roundNumber" style="margin-top: 11px;"></div>
             </div>
           </div>
-          <div id="scoreBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+          <div id="scoreBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">Tickets</div>
             <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: x-large;">
                 <div class="textContents" id="scoreValue" style="margin-top: 11px;"></div>
             </div>
           </div>
-          <div id="avatarBox" class="infoBox" style="width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+          <div id="avatarBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">Player 2</div>
             <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
                 <img id="player2image" class="playerImage">
@@ -338,7 +338,7 @@ Qualtrics.SurveyEngine.addOnload(function()
           <br><br><br><br><br><br><br><br>
       </div>
       <div id="message" style="width:80%;">
-          <div id="giveInterface">
+          <div id="giveInterface" style="display:none;">
               You have been given 100 raffle tickets.<br><br>
               How many tickets will you <span style="font-weight:bold;">give</span> to Player 2?<br><br>
               <div class="range-slider" data-slider>
@@ -349,12 +349,12 @@ Qualtrics.SurveyEngine.addOnload(function()
                 <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_bCMaxwrks4uUKcl">
               </a>
           </div>
-          <div id="waitForReturn">
+          <div id="waitForReturn" style="display:none;">
               Player 2 has received <span id="receiveNumber"></span> tickets.<br><br>
               Waiting for Player 2 to move. . . .<br><br>
               <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="waitingForPlayer2">
           </div>
-          <div id="returnedTickets">
+          <div id="returnedTickets" style="display:none;">
               Player 2 has returned <span id="returnedNumber"></span> tickets to you.<br><br>
               <div id="controllerOption">
                 You may punish Player 2 by taking away <span id="punishmentNumber"></span> of their tickets. Would you like to do this?<br>
@@ -362,7 +362,7 @@ Qualtrics.SurveyEngine.addOnload(function()
                         <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_428JoN2ysMi54lT" style="padding: 5px;"></a>&nbsp;<a href="javascript:endRound(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_bDaZOz1sgiQS101" style="padding: 5px;"></a>
               </div>
           </div>
-          <div id="showEndButton">
+          <div id="showEndButton" style="display:none;">
             <div id="noSharing">You kept all of your tickets.</div><br>
             <div id="punishmentSuccess">Player 2 has lost tickets!</div><br>
             Press the button to end this round.<br><br>
@@ -412,14 +412,14 @@ Qualtrics.SurveyEngine.addOnload(function()
                 <a href="javascript:pickAvatar(29)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_1HN5ae178prwa8J" class="avatarIcon" style="width: 55px; height: 55px; margin: 4px; padding: 4px; background-color: white;"></a>
             </div>
           </div>
-          <div id="matchingPlayers">
+          <div id="matchingPlayers" style="display:none;">
               <span id="youAreController"><span style="font-weight:bold;">You will be Controller this round!</span> If you feel Player 2 plays unfairly, you will have the opportunity to punish them when the round is over.</span>
               <span id="youAreNotController"><span style="font-weight:bold;">There will be no Controller this round.</span> The decisions made by both players will be final.</span>
               <br><br>
               Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
               <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="matchingPlayers">
           </div>
-          <div id="gameOver">
+          <div id="gameOver" style="display:none;">
             You've finished the game!<br><br>
             You have earned <span id="finalScore"></span> tickets for the $50 raffle!<br><br>
             Press the continue button at the bottom of the page to end the game and continue with the survey.<br><br>
