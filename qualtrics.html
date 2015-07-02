@@ -63,7 +63,9 @@ Qualtrics.SurveyEngine.addOnload(function()
 
         
         // what condition is the participant in? 
-        if (!qualtrics) {
+        if (qualtrics) {
+            var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
+        } else {
             var trainingCondition = Math.round(Math.random() ); // set training condition in game
         }
         
