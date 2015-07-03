@@ -51,14 +51,14 @@ Qualtrics.SurveyEngine.addOnload(function()
         var score = 0; // how many tickets has the player won so far?
         var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
         var controllerCount = 0; // how many times has the player been Controller?
-        var controllerMax = 10; // how many times should the player be Controller?
-        var roundMax = 2; // how many rounds will the player play?
+        var controllerMax = 12; // how many times should the player be Controller?
+        var roundMax = 24; // how many rounds will the player play?
         var round = 1; // what round is it?
-        var isController = [];
-        var gives = [];
-        var returned = [];
-        var punishes = [];
-        var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_";
+        var isController = []; // array of assignments to controller or not
+        var gives = []; // array of amount given each round
+        var returned = []; // array of amount returned by Player 2 each round
+        var punishes = []; // array of whether punishments were given or not
+        var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_"; // root URL for image files
         var trainingCondition = Math.round(Math.random() ); // set training condition in game
         var index = 0;
         
