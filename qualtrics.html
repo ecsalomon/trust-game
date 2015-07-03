@@ -28,18 +28,16 @@ Qualtrics.SurveyEngine.addOnload(function()
 		{
 			
                     for (var i = 0; i < roundMax; i++) {
-                        var myObj = results[i];
-			console.log(myObj);
 			var var1 = 'controller'+(i+1);
 			var var2 = 'gave'+(i+1);
 			var var3 = 'returned'+(i+1);
 			var var4 = 'punish'+(i+1);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var1, myObj['isController']);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var2, myObj['gives']);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var3, myObj['returned']);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var4, myObj['punishes']);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var1, isController[i]);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var2, gives[i]);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var3, returned[i]);
+                        Qualtrics.SurveyEngine.setEmbeddedData(var4, punishes[i]);
                     }
-                    Qualtrics.SurveyEngine.setEmbeddedData('score', 5);
+                    Qualtrics.SurveyEngine.setEmbeddedData('score', score);
                     Qualtrics.SurveyEngine.setEmbeddedData('training', trainingCondition);
                     this.clickNextButton();
 		}
@@ -56,12 +54,13 @@ Qualtrics.SurveyEngine.addOnload(function()
         var controllerMax = 10; // how many times should the player be Controller?
         var roundMax = 2; // how many rounds will the player play?
         var round = 1; // what round is it?
-        var controller = 0; // is the player the controller?
-        var results = new Array; // an array of results from every round
-        var roundVars = {}; // an object of results from a single round
-        var qualtrics = true; // Are you using Qualtrics?
+        var isController = [];
+        var gives = [];
+        var returned = [];
+        var punishes = [];
         var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_";
         var trainingCondition = Math.round(Math.random() ); // set training condition in game
+        var index = 0;
         
         
         console.log("training condition " + trainingCondition);
@@ -98,7 +97,8 @@ Qualtrics.SurveyEngine.addOnload(function()
         avatarFiles.push(root+"0PzlS9rV8wBfWS1");
         avatarFiles.push(root+"5guGfZ9AsYZZhQh");
         avatarFiles.push(root+"1HN5ae178prwa8J");
-
+        
+        
 	// show player's avatar
         function pickAvatar(whichAvatar) {
             var player1uri = avatarFiles[whichAvatar];
@@ -154,8 +154,8 @@ Qualtrics.SurveyEngine.addOnload(function()
                 }
                 
                 
-                roundVars["isController"] = controller;
-                console.log("Round: " + round + "; Results, controller: " + roundVars["isController"]);
+                isController[round - 1] = controller;
+                console.log("Round: " + round + "; Results, controller: " + isController[round - 1]);
                 
                 // if player is controller, increment controller counter
                 if (controller == 1){
@@ -208,15 +208,15 @@ Qualtrics.SurveyEngine.addOnload(function()
         // wait for player 2 to return tickets, give the controller the option to punish, and then end the round
         function returnTickets(){
             var ticketsGiven = document.getElementById("giveNumber").value; // how many tickets did player give?
-            roundVars["gives"] = ticketsGiven;
-            console.log("Round: " + round + "; Results, gives: " + roundVars["gives"]);
+            gives[round - 1] = ticketsGiven;
+            console.log("Round: " + round + "; Results, gives: " + gives[round - 1]);
             
             
             if (ticketsGiven == 0){
                 $j("#giveInterface").hide();
                 $j("#noSharing").show();
-                roundVars["returned"] = ticketsGiven;
-                console.log("Round: " + round + "; Results, returned: " + roundVars["returned"]);
+                returned[round - 1] = ticketsGiven;
+                console.log("Round: " + round + "; Results, returned: " + returned[round - 1]);
                 endRound(0);
             } else {
                 var tripleTickets = ticketsGiven * 3; // triple the number of tickets given
@@ -231,8 +231,8 @@ Qualtrics.SurveyEngine.addOnload(function()
                 
                 
                 var returnAmount = Math.floor(tripleTickets * returnPercent); // how many tickets returned?
-                roundVars["returned"] = returnAmount;
-                console.log("Round: " + round + "; Results, returns: " + roundVars["returned"]);
+                returned[round - 1] = returnAmount;
+                console.log("Round: " + round + "; Results, returns: " + returned[round - 1]);
                 
                 console.log(returnAmount);
                 var amountKept = tripleTickets - returnAmount;
@@ -280,9 +280,8 @@ Qualtrics.SurveyEngine.addOnload(function()
         // display the final results of the round and allow the player to end it
         function endRound(punished){
             
-            roundVars["punishes"] = punished;
-            console.log("Round: " + round + "; Results, punishes: " + roundVars["punishes"]);
-            results.push(roundVars);
+            punishes[round - 1] = punished;
+            console.log("Round: " + round + "; Results, punishes: " + punishes[round - 1]);
             
             
             $j("#controllerOption").hide();
@@ -292,7 +291,6 @@ Qualtrics.SurveyEngine.addOnload(function()
                 $j("#showEndButton").show();
                 $j("#punishmentSuccess").show();
             } else {
-                console.log("punished not 1");
                 $j("#showEndButton").show();
             }
         
