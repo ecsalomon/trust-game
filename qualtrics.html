@@ -94,6 +94,7 @@ Qualtrics.SurveyEngine.addOnload(function()
         function startRound(){
             // if the game is over, show the continue button and let the player leave
             // otherwise, start a new round of the game
+            $j("#controllerOption").hide();
             $j("#returnedTickets").hide();
             $j("#punishmentSuccess").hide();
             $j("#showEndButton").hide();
@@ -153,6 +154,7 @@ Qualtrics.SurveyEngine.addOnload(function()
                 $j("#selectAvatar").hide();
                 $j("#avatarBox").hide();
                 $j("#matchingPlayers").show();
+                $j("#loadingMatch").show();
                 $j("#matchRoundNumber").text(round);
                 $j("#roundNumber").text(round);
                 $j("#roundBox").show();
@@ -170,17 +172,24 @@ Qualtrics.SurveyEngine.addOnload(function()
                 
                 // after 10-15 seconds, the round begins
                 setTimeout(function(){
-                    score = score + 100;
-                    $j("#matchingPlayers").hide();
-                    $j("#giveInterface").show();
-                    $j("#avatarBox").show();
-                    $j("#scoreValue").text(score);
                     $j('#player2image').attr('src', player2uri);
                     $j('#player2image').show();
+                    $j("#avatarBox").show();
+                    $j('#loadingMatch').hide();
+                    $j('#playRound').show();
                 },playerWaitTime);   
             }
         }
 
+    // show the player the give interface
+        function giveInterface() {
+             $j('#matchingPlayers').hide();
+             $j('#playRound').hide();
+             score = score + 100;
+             $j("#scoreValue").text(score);
+             $j("#giveInterface").show();
+        }
+        
     // display to the player how many tickets they are giving away
         function outputUpdate(give) {
             document.querySelector('#currentGiveValue').value = give;
@@ -394,8 +403,12 @@ Qualtrics.SurveyEngine.addOnload(function()
               <span id="youAreController"><span style="font-weight:bold;">You will be Controller this round!</span> If you feel Player 2 plays unfairly, you will have the opportunity to punish them when the round is over.</span>
               <span id="youAreNotController"><span style="font-weight:bold;">There will be no Controller this round.</span> The decisions made by both players will be final.</span>
               <br><br>
-              Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
-              <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="matchingPlayers">
+              <div id="loadingMatch" style="display:none;">Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
+                <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="matchLoadBar">
+              </div>
+              <div id="playRound" style="display:none;">Match found! Press the button to start the round.
+                <a href="javascript:giveInterface()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_2nH6wQejyqHW1E1" id="playButton"></a>
+              </div>
           </div>
           <div id="gameOver" style="display:none;">
             You've finished the game!<br><br>
