@@ -3,24 +3,8 @@
 Qualtrics.SurveyEngine.addOnload(function()
 {		
         console.log("ready!");
-        $j("#giveInterface").hide();
-        $j("#waitForReturn").hide();
-        $j("#returnedTickets").hide();
-        $j("#matchingPlayers").hide();
-        $j("#avatarBox").hide();
-        $j("#player2image").hide();
-        $j('#NextButton').hide();
-        $j('#gameOver').hide();
-        $j("#punishmentSuccess").hide();
-        $j("#controllerOption").hide();
-        $j("#scoreValue").text(score);
-        $j("#showEndButton").hide();
-        $j("#noSharing").hide();
-        $j("#roundBox").hide();
-        $j("#scoreBox").hide();
-        $j("#topBox").hide();
-        $j("#playerBox").hide();
 	$j("fieldset > .QuestionBody").hide();
+        $j('#NextButton').hide();
        
         // Save the results to Qualtrics   
 	this.questionclick = function(event,element){
@@ -115,6 +99,7 @@ Qualtrics.SurveyEngine.addOnload(function()
             $j("#showEndButton").hide();
             $j("#noSharing").hide();
             if (round > roundMax){
+                console.log("round > roundMax");
                 $j("#topBox").hide();
                 $j("#finalScore").text(score);
                 $j('#gameOver').show();
@@ -302,29 +287,29 @@ Qualtrics.SurveyEngine.addOnload(function()
 
 <!-- Begin question text -->    
     
-<div id="gameboard" style="width:480px; height:520px; background-color: #edf8b1; border-style: solid; border-width: 5px; border-color: #081d58; padding: 10px; font-family: Arial, Helvetica, sans-serif; color: #081d58;">
+<div id="gameboard" style="height:560px; background-color: #edf8b1; border-style: solid; border-width: 5px; border-color: #081d58; padding: 10px; font-family: Arial, Helvetica, sans-serif; color: #081d58;">
       <div id="topBox" style="display:none; width: 465px; margin-left: auto; margin-right: auto;">
-          <div id="playerBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+          <div id="playerBox" class="infoBox" style="display:none; width:95px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">You</div>
-            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
+            <div class="boxContents" style="width:65px; height:60px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
                 <img id="player1image" class="playerImage">
             </div>
           </div>
-          <div id="roundBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+          <div id="roundBox" class="infoBox" style="display:none; width:95px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">Round</div>
-            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
+            <div class="boxContents" style="width:65px; height:60px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
                 <div class="textContents" id="roundNumber" style="margin-top: 11px;"></div>
             </div>
           </div>
-          <div id="scoreBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+          <div id="scoreBox" class="infoBox" style="display:none; width:95px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">Tickets</div>
-            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: x-large;">
+            <div class="boxContents" style="width:65px; height:60px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: x-large;">
                 <div class="textContents" id="scoreValue" style="margin-top: 11px;"></div>
             </div>
           </div>
-          <div id="avatarBox" class="infoBox" style="display:none; width:75px; height:85px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
+          <div id="avatarBox" class="infoBox" style="display:none; width:95px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffd9; float: left; text-align: center;">
             <div class="boxTitle">Player 2</div>
-            <div class="boxContents" style="width:60px; height:55px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
+            <div class="boxContents" style="width:65px; height:60px; background-color: #ffffd9; padding: 5px; margin-left: auto; margin-right: auto; margin-top: 5px; font-family: Arial, Helvetica, sans-serif; color: #081d58; text-align: center; font-size: xx-large;">
                 <img id="player2image" class="playerImage">
             </div>
           </div>
