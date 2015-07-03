@@ -2,25 +2,25 @@
 <!-- Begin code that goes into the JavaScript editor for the question --> 
 Qualtrics.SurveyEngine.addOnload(function()
 {		
-            console.log("ready!");
-            $j("#giveInterface").hide();
-            $j("#waitForReturn").hide();
-            $j("#returnedTickets").hide();
-            $j("#matchingPlayers").hide();
-            $j("#avatarBox").hide();
-            $j("#player2image").hide();
-            $j('#NextButton').hide();
-            $j('#gameOver').hide();
-            $j("#punishmentSuccess").hide();
-            $j("#controllerOption").hide();
-            $j("#scoreValue").text(score);
-            $j("#showEndButton").hide();
-            $j("#noSharing").hide();
-            $j("#roundBox").hide();
-            $j("#scoreBox").hide();
-            $j("#topBox").hide();
-            $j("#playerBox").hide();
-	    $j("fieldset > .QuestionBody").hide();
+        console.log("ready!");
+        $j("#giveInterface").hide();
+        $j("#waitForReturn").hide();
+        $j("#returnedTickets").hide();
+        $j("#matchingPlayers").hide();
+        $j("#avatarBox").hide();
+        $j("#player2image").hide();
+        $j('#NextButton').hide();
+        $j('#gameOver').hide();
+        $j("#punishmentSuccess").hide();
+        $j("#controllerOption").hide();
+        $j("#scoreValue").text(score);
+        $j("#showEndButton").hide();
+        $j("#noSharing").hide();
+        $j("#roundBox").hide();
+        $j("#scoreBox").hide();
+        $j("#topBox").hide();
+        $j("#playerBox").hide();
+	$j("fieldset > .QuestionBody").hide();
        
         // Save the results to Qualtrics   
 	this.questionclick = function(event,element){
@@ -40,6 +40,7 @@ Qualtrics.SurveyEngine.addOnload(function()
                         Qualtrics.SurveyEngine.setEmbeddedData(var4, myObj['punishes']);
                     }
                     Qualtrics.SurveyEngine.setEmbeddedData('score', 5);
+                    Qualtrics.SurveyEngine.setEmbeddedData('training', trainingCondition);
                     this.clickNextButton();
 		}
 	}
@@ -60,17 +61,11 @@ Qualtrics.SurveyEngine.addOnload(function()
         var roundVars = {}; // an object of results from a single round
         var qualtrics = true; // Are you using Qualtrics?
         var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_";
-
+        var trainingCondition = Math.round(Math.random() ); // set training condition in game
         
-        // what condition is the participant in? 
-        if (qualtrics) {
-            var trainingCondition = "${e://Field/training}"; // pull in training condition from Qualtrics
-        } else {
-            var trainingCondition = Math.round(Math.random() ); // set training condition in game
-        }
         
         console.log("training condition " + trainingCondition);
-            
+        
         // file paths to all the avatars
         var avatarFiles = new Array();
         avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX");
