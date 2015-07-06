@@ -82,6 +82,12 @@ Qualtrics.SurveyEngine.addOnload(function()
         avatarFiles.push(root+"5guGfZ9AsYZZhQh");
         avatarFiles.push(root+"1HN5ae178prwa8J");
         
+        // When player starts the game, show them the avatar selection screen
+        function showAvatars() {
+            console.log("show avatars");
+            $j("#instructions").hide();
+            $j("#selectAvatar").show();
+        }
         
 	// show player's avatar
         function pickAvatar(whichAvatar) {
@@ -170,7 +176,7 @@ Qualtrics.SurveyEngine.addOnload(function()
                     $j("#youAreController").hide();
                 }
                 
-                // after 10-15 seconds, the round begins
+                // after a few seconds, the round begins
                 setTimeout(function(){
                     $j('#player2image').attr('src', player2uri);
                     $j('#player2image').show();
@@ -357,9 +363,15 @@ Qualtrics.SurveyEngine.addOnload(function()
           </div>
               
           </div>
-          
-          <div id="selectAvatar">
+          <div id="instructions">
             <br>You have been assigned to the role of <span style="font-weight:bold;">Player 1</span>!<br><br>
+            Each round, you will receive 100 raffle tickets and will be matched with a different Player 2. <br><br>
+            You may give as many of these tickets to Player 2 as you wish. Any tickets you give to Player 2 will be <span style="font-weight: bold;">tripled</span>. Then, Player 2 may return as many of the tripled tickets as they wish.<br><br>
+            Some rounds, you will also get to be the <span style="font-weight: bold;">Controller</span>. On these rounds, you can punish Player 2 by taking away some of their tickets if you think they played unfairly.<br><br>
+            On other rounds, there will be <span style="font-weight: bold;">no</span> Controller. All decisions by both players will be final.<br><br>
+            <a href="javascript:showAvatars(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_3mbxmoTIIZ5xY7b"></a>&nbsp;&nbsp;&nbsp;Ready to begin? Press the button!<br>
+          </div>
+          <div id="selectAvatar" style="display:none;">
             Select an avatar to represent yourself in the game.<br>Your avatar will be shown to the players you are matched with.<br><br>
             <div id="avatarGrid">
                 
@@ -406,7 +418,7 @@ Qualtrics.SurveyEngine.addOnload(function()
               <div id="loadingMatch" style="display:none;">Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
                 <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="matchLoadBar">
               </div>
-              <div id="playRound" style="display:none;">Match found! Press the button to start the round.
+              <div id="playRound" style="display:none;">Match found! Press the button to start the round.<br><br>
                 <a href="javascript:giveInterface()"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_2nH6wQejyqHW1E1" id="playButton"></a>
               </div>
           </div>
