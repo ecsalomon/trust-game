@@ -156,6 +156,7 @@ Qualtrics.SurveyEngine.addOnload(function()
                 
                 // When the round begins, hide the avatar selection and show the
                 // player that they are assigned to Player 1
+                $j("#waitForReturn").hide();
                 $j("#topBox").show();
                 $j("#selectAvatar").hide();
                 $j("#avatarBox").hide();
@@ -248,14 +249,17 @@ Qualtrics.SurveyEngine.addOnload(function()
                 $j("#scoreValue").text(score);
                 
                 $j("#giveInterface").hide();
+                $j("#gaveNumber").text(ticketsGiven);
                 $j("#receiveNumber").text(tripleTickets);
+                $j("#returnedTickets").hide();
                 $j("#waitForReturn").show();
+                $j("#waitForMove").show();
                 
                 // after 10-15 seconds, player 2 sends tickets back
                 setTimeout(function(){
                     score = score + returnAmount;
                     $j("#scoreValue").text(score);
-                    $j("#waitForReturn").hide();
+                    $j("#waitForMove").hide();
                     $j("#returnedNumber").text(returnAmount);
                     $j("#punishmentNumber").text(punishmentAmount);
                     $j("#returnedTickets").show();
@@ -342,23 +346,27 @@ Qualtrics.SurveyEngine.addOnload(function()
                 <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_bCMaxwrks4uUKcl">
               </a>
           </div>
-          <div id="waitForReturn" style="display:none;">
-              Player 2 has received <span id="receiveNumber"></span> tickets.<br><br>
-              Waiting for Player 2 to move. . . .<br><br>
-              <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="waitingForPlayer2">
-          </div>
-          <div id="returnedTickets" style="display:none;">
-              Player 2 has returned <span id="returnedNumber"></span> tickets to you.<br><br>
-              <div id="controllerOption">
-                You may punish Player 2 by taking away <span id="punishmentNumber"></span> of their tickets. Would you like to do this?<br>
+          <div id="waitForReturn" style="display: none;">
+              You gave Player 2 <span id="gaveNumber" style="font-weight: bold;"></span> of your tickets. These tickets were tripled before being passed on.<br><br>
+              Player 2 received <span id="receiveNumber" style="font-weight: bold;"></span> tickets.<br><br>
+              <div id="waitForMove" style="display: none;">
+                Player 2 will decide how many tickets to return.<br><br>
+                Waiting for Player 2 to move. . . .<br><br>
+                <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="waitingForPlayer2">
+              </div>
+              <div id="returnedTickets" style="display: none;">
+                  Player 2 has returned <span id="returnedNumber" style="font-weight: bold;"></span> tickets to you.<br><br>
+                  <div id="controllerOption">
+                    You may punish Player 2 by taking away <span id="punishmentNumber" style="font-weight: bold;"></span> of their tickets. Would you like to do this?<br>
                     <a href="javascript:endRound(1)">
-                        <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_428JoN2ysMi54lT" style="padding: 5px;"></a>&nbsp;<a href="javascript:endRound(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_bDaZOz1sgiQS101" style="padding: 5px;"></a>
+                    <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_428JoN2ysMi54lT" style="padding: 5px;"></a>&nbsp;<a href="javascript:endRound(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_bDaZOz1sgiQS101" style="padding: 5px;"></a>
+                  </div>
               </div>
           </div>
           <div id="showEndButton" style="display:none;">
-            <div id="noSharing">You kept all of your tickets.</div><br>
-            <div id="punishmentSuccess">Player 2 has lost tickets!</div><br>
-            Press the button to end this round.<br><br>
+            <div id="noSharing">You kept all of your tickets.</div>
+            <div id="punishmentSuccess">Player 2 has lost tickets!</div>
+            Press the button to end this round.<br>
             <a href="javascript:startRound(0)"><img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_5iJjE6rhiUxEqpf"></a>
           </div>
               
@@ -431,4 +439,3 @@ Qualtrics.SurveyEngine.addOnload(function()
     </div>
     <div id="imageCredit"><div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0.</a> <a href="http://www.flaticon.com/packs/cute-animals">Available here.</a></div>
 <!-- End question text -->    
-    
