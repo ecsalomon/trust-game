@@ -1,8 +1,8 @@
 
 #gameboard {
     width:480px;
-    height:500px;
-    background-color: #edf8b1;
+    height:520px;
+    background-color: #f7fcf0;
     border-style: solid;
     border-width: 5px;
     border-color: #081d58;
@@ -18,9 +18,9 @@
 }
 
 #topBox {
-    width: 465px;
-    margin-left: auto;
-    margin-right: auto;    
+    width: 465px !important;
+    margin-left: auto !IMPORTANT;
+    margin-right: auto !IMPORTANT;    
 }
 
 .avatarIcon {
@@ -32,31 +32,31 @@
 }
 
 .infobox {
-    width:75px;
-    height:85px;
-    background-color: #253494;
-    border-style: solid;
-    border-width: 5px;
-    border-color: #081d58;
-    padding: 5px;
-    margin: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #ffffd9;
-    float: left;
-    text-align: center;
+    width:75px !important;
+    height:85px !important;
+    background-color: #253494 !important;
+    border-style: solid !important;
+    border-width: 5px !important;
+    border-color: #081d58 !important;
+    padding: 5px !important;
+    margin: 10px !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    color: #ffffff !important;
+    float: left !important;
+    text-align: center !important;
 }
 
 .boxContents {
-    width:60px;
-    height:55px;
-    background-color: #ffffd9;
-    padding: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5px;
+    width:60px !important;
+    height:55px !important;
+    background-color: #ffffff !important;
+    padding: 5px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 5px !important;
     font-family: Arial, Helvetica, sans-serif;
-    color: #081d58;
-    text-align: center;
+    color: #081d58 !important;
+    text-align: center !important;
     font-size: xx-large;
 }
 
@@ -65,12 +65,12 @@
 }
 
 .playerImage {
-    width: 55px;
-    height: 55px;
-    margin-left: auto;
-    margin-right: auto;
-    vertical-align: middle;
-    background-color: #ffffd9;
+    width: 55px !important;
+    height: 55px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    vertical-align: middle !important;
+    background-color: #ffffff !important;
 }
 
 #imageCredit {
