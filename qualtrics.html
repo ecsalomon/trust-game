@@ -1,7 +1,11 @@
 <script>
-<!-- Begin code that goes into the JavaScript editor for the question --> 
-Qualtrics.SurveyEngine.addOnload(function()
-{		
+    /* *************************************************************************
+        BEGIN JAVASCRIPT
+        
+        Copy and paste the code below through the END JAVASCRIPT comment into
+        the javascript editor for the question.
+    ************************************************************************* */ 
+    Qualtrics.SurveyEngine.addOnload(function(){		
         console.log("ready!");
 	$j("fieldset > .QuestionBody").hide();
         $j('#NextButton').hide();
@@ -25,287 +29,283 @@ Qualtrics.SurveyEngine.addOnload(function()
                     Qualtrics.SurveyEngine.setEmbeddedData('training', trainingCondition);
                     this.clickNextButton();
 		}
-	}
- 
-});
+	} 
+    });
 
 
 
- // *** Initialize variables ***
-        var score = 0; // how many tickets has the player won so far?
-        var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
-        var controllerCount = 0; // how many times has the player been Controller?
-        var controllerMax = 12; // how many times should the player be Controller?
-        var roundMax = 24; // how many rounds will the player play?
-        var round = 1; // what round is it?
-        var isController = []; // array of assignments to controller or not
-        var gives = []; // array of amount given each round
-        var returned = []; // array of amount returned by Player 2 each round
-        var punishes = []; // array of whether punishments were given or not
-        var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_"; // root URL for image files
-        var trainingCondition = Math.round(Math.random() ); // set training condition in game
-        var index = 0;
+    /* *********************************************************************
+        Update settings for game here.
+    ********************************************************************* */
+    var controllerMax = 2; // how many times should player be Controller?
+    var roundMax = 4; // how many rounds will the player play?
+    var qualtrics = false; /* If you are using Qualtrics, it is recommended
+                              that you use the qualtrics.html file, rather
+                              than index.html */
         
         
-        console.log("training condition " + trainingCondition);
+    /* *********************************************************************
+        Update this file list with paths to your *locally hosted* files (for
+        example, files hosted on *your* Qualtrics account or your server).
+    ********************************************************************* */
+    var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_"; // root URL for image files
+    var avatarFiles = new Array();
+    avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX");
+    avatarFiles.push(root+"a8E4fq4HMIw3wRn");
+    avatarFiles.push(root+"41qtXpnDxiLoTnT");
+    avatarFiles.push(root+"57M3YRh0kfWpdpr");
+    avatarFiles.push(root+"3sWu55iUZaIVoJn");
+    avatarFiles.push(root+"e3su4OeukxIY9CZ");
+    avatarFiles.push(root+"0oiJckoSOfpKTnD");
+    avatarFiles.push(root+"9KuZG4ekZd4UWGx");
+    avatarFiles.push(root+"eX8CjocdADHCYdv");
+    avatarFiles.push(root+"9RGuX0mrqkvMHYN");
+    avatarFiles.push(root+"3BCvo7dbIcMxLeZ");
+    avatarFiles.push(root+"0jOCzPpysN3F02h");
+    avatarFiles.push(root+"cHZpTL2OKihmxKd");
+    avatarFiles.push(root+"5osYMdT6CxqEGc5");
+    avatarFiles.push(root+"dnaeU4f35tPXfaR");
+    avatarFiles.push(root+"b2Z4JXCknJPFBrL");
+    avatarFiles.push(root+"b2urm5wlLyXBPcp");
+    avatarFiles.push(root+"8kLN8v8UlC6NoQ5");
+    avatarFiles.push(root+"5vZBKB7NkJ1mjs1");
+    avatarFiles.push(root+"1ZddqNgJpNe5afP");
+    avatarFiles.push(root+"9zC1P1OSQ05U3fn");
+    avatarFiles.push(root+"8IbWG9VRYKB3Dbn");
+    avatarFiles.push(root+"5orljVA2e8OIa7X");
+    avatarFiles.push(root+"5swzD2G4puy2fDn");
+    avatarFiles.push(root+"9vu3Mfg7NUSyaJT");
+    avatarFiles.push(root+"3IBZ3muYDPZqDKR");
+    avatarFiles.push(root+"2nLEiQXvtriNBMF");
+    avatarFiles.push(root+"0PzlS9rV8wBfWS1");
+    avatarFiles.push(root+"5guGfZ9AsYZZhQh");
+    avatarFiles.push(root+"1HN5ae178prwa8J");
         
-        // file paths to all the avatars
-        var avatarFiles = new Array();
-        avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX");
-        avatarFiles.push(root+"a8E4fq4HMIw3wRn");
-        avatarFiles.push(root+"41qtXpnDxiLoTnT");
-        avatarFiles.push(root+"57M3YRh0kfWpdpr");
-        avatarFiles.push(root+"3sWu55iUZaIVoJn");
-        avatarFiles.push(root+"e3su4OeukxIY9CZ");
-        avatarFiles.push(root+"0oiJckoSOfpKTnD");
-        avatarFiles.push(root+"9KuZG4ekZd4UWGx");
-        avatarFiles.push(root+"eX8CjocdADHCYdv");
-        avatarFiles.push(root+"9RGuX0mrqkvMHYN");
-        avatarFiles.push(root+"3BCvo7dbIcMxLeZ");
-        avatarFiles.push(root+"0jOCzPpysN3F02h");
-        avatarFiles.push(root+"cHZpTL2OKihmxKd");
-        avatarFiles.push(root+"5osYMdT6CxqEGc5");
-        avatarFiles.push(root+"dnaeU4f35tPXfaR");
-        avatarFiles.push(root+"b2Z4JXCknJPFBrL");
-        avatarFiles.push(root+"b2urm5wlLyXBPcp");
-        avatarFiles.push(root+"8kLN8v8UlC6NoQ5");
-        avatarFiles.push(root+"5vZBKB7NkJ1mjs1");
-        avatarFiles.push(root+"1ZddqNgJpNe5afP");
-        avatarFiles.push(root+"9zC1P1OSQ05U3fn");
-        avatarFiles.push(root+"8IbWG9VRYKB3Dbn");
-        avatarFiles.push(root+"5orljVA2e8OIa7X");
-        avatarFiles.push(root+"5swzD2G4puy2fDn");
-        avatarFiles.push(root+"9vu3Mfg7NUSyaJT");
-        avatarFiles.push(root+"3IBZ3muYDPZqDKR");
-        avatarFiles.push(root+"2nLEiQXvtriNBMF");
-        avatarFiles.push(root+"0PzlS9rV8wBfWS1");
-        avatarFiles.push(root+"5guGfZ9AsYZZhQh");
-        avatarFiles.push(root+"1HN5ae178prwa8J");
+    // *** Initialize variables ***
+    var score = 0; // how many tickets has the player won so far?
+    var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
+    var controllerCount = 0; // how many times has the player been Controller?
+    var round = 1; // what round is it?
+    var isController = []; // array of assignments to controller or not
+    var gives = []; // array of amount given each round
+    var returned = []; // array of amount returned by Player 2 each round
+    var punishes = []; // array of whether punishments were given or not
+    var trainingCondition = Math.round(Math.random() ); // set training condition in game
+    var index = 0;
         
-        // When player starts the game, show them the avatar selection screen
-        function showAvatars() {
-            console.log("show avatars");
-            $j("#instructions").hide();
-            $j("#selectAvatar").show();
-        }
+    // When player starts the game, show them the avatar selection screen
+    function showAvatars() {
+        console.log("show avatars");
+        $j("#instructions").hide();
+        $j("#selectAvatar").show();
+    }
         
-	// show player's avatar
-        function pickAvatar(whichAvatar) {
-            var player1uri = avatarFiles[whichAvatar];
-            $j('#player1image').attr('src', player1uri);
-            startRound();
-        }
+    // show player's avatar
+    function pickAvatar(whichAvatar) {
+        var player1uri = avatarFiles[whichAvatar];
+        $j('#player1image').attr('src', player1uri);
+        startRound();
+    }
 
-// Start a round
-        function startRound(){
-            // if the game is over, show the continue button and let the player leave
-            // otherwise, start a new round of the game
-            $j("#controllerOption").hide();
-            $j("#returnedTickets").hide();
-            $j("#punishmentSuccess").hide();
-            $j("#showEndButton").hide();
-            $j("#noSharing").hide();
-            if (round > roundMax){
-                console.log("round > roundMax");
-                $j("#topBox").hide();
-                $j("#finalScore").text(score);
-                $j('#gameOver').show();
-                $j("fieldset > .QuestionBody").show();
-                
-                
-                
-            } else {
-                // reset the slider 0
-                document.getElementById("giveNumber").value = 0;
-                $j("#currentGiveValue").text("0");
-                
-                // Generate a random number that defines how
-                // many ms player waits before Player 2 supposedly joins the game
-                var playerWaitTime = Math.floor(Math.random() * 1000) + 2500;
-                console.log(playerWaitTime);
+    // Start a round
+    function startRound(){
+        // if the game is over, show the continue button and let the player leave
+        // otherwise, start a new round of the game
+        $j("#controllerOption").hide();
+        $j("#returnedTickets").hide();
+        $j("#punishmentSuccess").hide();
+        $j("#showEndButton").hide();
+        $j("#noSharing").hide();
+        if (round > roundMax){
+            console.log("round > roundMax");
+            $j("#topBox").hide();
+            $j("#finalScore").text(score);
+            $j('#gameOver').show();
+            $j("fieldset > .QuestionBody").show();
+        } else {
+            // reset the slider 0
+            document.getElementById("giveNumber").value = 0;
+            $j("#currentGiveValue").text("0");
             
-                // randomly select an avatar for Player 2
-                var player2 = Math.floor(Math.random()*30);
-                var player2uri = avatarFiles[player2];
-                
-                var sentTickets = 0; // how many tickets has the player sent this round?
-                var returnedTickets = 0; // how many tickets returned to the player this round?
-                
-                // is the player Controller this round? 0 = no; 1 = yes
-                // first, initialize the variable to 0
-                controller = 0;
-                // then, check if the number of rounds remaining is the same as
-                // the number of controller rounds remaining, make the player
-                // controller. if not, randomize whether the player is controller.
-                var roundsRemaining = roundMax - round + 1; // how many rounds remaining?
-                var controllersRemaining = controllerMax - controllerCount; // how many controller rounds remaining?
-                if ( roundsRemaining <= controllersRemaining){
-                    controller = 1;
-                } else if (controllerCount < controllerMax){
-                    controller = Math.round(Math.random() );
-                }
-                
-                
-                isController[round - 1] = controller;
-                console.log("Round: " + round + "; Results, controller: " + isController[round - 1]);
-                
-                // if player is controller, increment controller counter
-                if (controller == 1){
-                    controllerCount = controllerCount + 1;
-                }
-                
-                // When the round begins, hide the avatar selection and show the
-                // player that they are assigned to Player 1
-                $j("#waitForReturn").hide();
-                $j("#topBox").show();
-                $j("#selectAvatar").hide();
-                $j("#avatarBox").hide();
-                $j("#matchingPlayers").show();
-                $j("#loadingMatch").show();
-                $j("#matchRoundNumber").text(round);
-                $j("#roundNumber").text(round);
-                $j("#roundBox").show();
-                $j("#scoreBox").show();
-                $j("#playerBox").show();
-                
-                // tell the player whether they are the controller
-                if (controller == 1){
-                    $j("#youAreNotController").hide();
-                    $j("#youAreController").show();
-                } else {
-                    $j("#youAreNotController").show();
-                    $j("#youAreController").hide();
-                }
-                
-                // after a few seconds, the round begins
-                setTimeout(function(){
-                    $j('#player2image').attr('src', player2uri);
-                    $j('#player2image').show();
-                    $j("#avatarBox").show();
-                    $j('#loadingMatch').hide();
-                    $j('#playRound').show();
-                },playerWaitTime);   
+            // Generate a random number between 2500 and 3500 that defines how
+            // many ms player waits before Player 2 supposedly joins the game
+            var playerWaitTime = Math.floor(Math.random() * 1000) + 2500;
+            console.log(playerWaitTime);
+            
+            // randomly select an avatar for Player 2
+            var player2 = Math.floor(Math.random()*30);
+            var player2uri = avatarFiles[player2];                
+            var sentTickets = 0; // how many tickets has the player sent this round?
+            var returnedTickets = 0; // how many tickets returned to the player this round?
+        
+            // is the player Controller this round? 0 = no; 1 = yes
+            // first, initialize the variable to 0
+            controller = 0;
+            // then, check if the number of rounds remaining is the same as
+            // the number of controller rounds remaining, make the player
+            // controller. if not, randomize whether the player is controller.
+            var roundsRemaining = roundMax - round + 1; // how many rounds remaining?
+            var controllersRemaining = controllerMax - controllerCount; // how many controller rounds remaining?
+            if ( roundsRemaining <= controllersRemaining){
+                controller = 1;
+            } else if (controllerCount < controllerMax){
+                controller = Math.round(Math.random() );
             }
+                
+            isController[round - 1] = controller;
+            console.log("Round: " + round + "; Results, controller: " + isController[round - 1]);
+        
+            // if player is controller, increment controller counter
+            if (controller == 1){
+                controllerCount = controllerCount + 1;
+            }
+                
+            // When the round begins, hide the avatar selection and show the
+            // player that they are assigned to Player 1
+            $j("#waitForReturn").hide();
+            $j("#topBox").show();
+            $j("#selectAvatar").hide();
+            $j("#avatarBox").hide();
+            $j("#matchingPlayers").show();
+            $j("#loadingMatch").show();
+            $j("#matchRoundNumber").text(round);
+            $j("#roundNumber").text(round);
+            $j("#roundBox").show();
+            $j("#scoreBox").show();
+            $j("#playerBox").show();
+                
+            // tell the player whether they are the controller
+            if (controller == 1){
+                $j("#youAreNotController").hide();
+                $j("#youAreController").show();
+            } else {
+                $j("#youAreNotController").show();
+                $j("#youAreController").hide();
+            }
+        
+            // after a few seconds, the round begins
+            setTimeout(function(){
+                $j('#player2image').attr('src', player2uri);
+                $j('#player2image').show();
+                $j("#avatarBox").show();
+                $j('#loadingMatch').hide();
+                $j('#playRound').show();
+            },playerWaitTime);   
         }
+    }
 
     // show the player the give interface
-        function giveInterface() {
-             $j('#matchingPlayers').hide();
-             $j('#playRound').hide();
-             score = score + 100;
-             $j("#scoreValue").text(score);
-             $j("#giveInterface").show();
-        }
+    function giveInterface() {
+        $j('#matchingPlayers').hide();
+        $j('#playRound').hide();
+        score = score + 100;
+        $j("#scoreValue").text(score);
+        $j("#giveInterface").show();
+    }
         
     // display to the player how many tickets they are giving away
-        function outputUpdate(give) {
-            document.querySelector('#currentGiveValue').value = give;
-        }
+    function outputUpdate(give) {
+        document.querySelector('#currentGiveValue').value = give;
+    }
         
-        
-        
-        
-        
-        // wait for player 2 to return tickets, give the controller the option to punish, and then end the round
-        function returnTickets(){
-            var ticketsGiven = document.getElementById("giveNumber").value; // how many tickets did player give?
-            gives[round - 1] = ticketsGiven;
-            console.log("Round: " + round + "; Results, gives: " + gives[round - 1]);
+    // wait for player 2 to return tickets, give the controller the option to punish, and then end the round
+    function returnTickets(){
+        var ticketsGiven = document.getElementById("giveNumber").value; // how many tickets did player give?
+        gives[round - 1] = ticketsGiven;
+        console.log("Round: " + round + "; Results, gives: " + gives[round - 1]);        
             
+        if (ticketsGiven == 0){
+            $j("#giveInterface").hide();
+            $j("#noSharing").show();
+            returned[round - 1] = ticketsGiven;
+            console.log("Round: " + round + "; Results, returned: " + returned[round - 1]);
+            endRound(0);
+        } else {
+            var tripleTickets = ticketsGiven * 3; // triple the number of tickets given
+            var returnPercent = Math.random() * .2 + .4; // default percent of tickets returned by Player 2
+                
+            // if the player is in the association condition and is controller,
+            // change the number of tickets returned to a lower value
+            if (controller == 1 & trainingCondition == 1){
+                returnPercent = Math.random() * .2;
+            }
             
-            if (ticketsGiven == 0){
-                $j("#giveInterface").hide();
-                $j("#noSharing").show();
-                returned[round - 1] = ticketsGiven;
-                console.log("Round: " + round + "; Results, returned: " + returned[round - 1]);
-                endRound(0);
-            } else {
-                var tripleTickets = ticketsGiven * 3; // triple the number of tickets given
-                var returnPercent = Math.random() * .2 + .4; // default percent of tickets returned by Player 2
+            var returnAmount = Math.floor(tripleTickets * returnPercent); // how many tickets returned?
+            returned[round - 1] = returnAmount;
+            console.log("Round: " + round + "; Results, returns: " + returned[round - 1]);
+            console.log(returnAmount);
+            var amountKept = tripleTickets - returnAmount;
+            var punishmentAmount = Math.round(amountKept / 3);
                 
-                // if the player is in the association condition and is controller,
-                // change the number of tickets returned to a lower value
-                if (controller == 1 & trainingCondition == 1){
-                    returnPercent = Math.random() * .2;
-                }
+            // Generate a random number from 2500 to 5000 that defines how
+            // many ms player waits before Player 2 supposedly returns tickets
+            var playerWaitTime = Math.floor(Math.random() * 2500) + 2500;
+            console.log(playerWaitTime);
                 
+            score = score - ticketsGiven;
+            $j("#scoreValue").text(score);
                 
+            $j("#giveInterface").hide();
+            $j("#gaveNumber").text(ticketsGiven);
+            $j("#receiveNumber").text(tripleTickets);
+            $j("#returnedTickets").hide();
+            $j("#waitForReturn").show();
+            $j("#waitForMove").show();
                 
-                var returnAmount = Math.floor(tripleTickets * returnPercent); // how many tickets returned?
-                returned[round - 1] = returnAmount;
-                console.log("Round: " + round + "; Results, returns: " + returned[round - 1]);
-                
-                console.log(returnAmount);
-                var amountKept = tripleTickets - returnAmount;
-                var punishmentAmount = Math.round(amountKept / 3);
-                
-                
-                // Generate a random number from 10000 to 20000 that defines how
-                // many ms player waits before Player 2 supposedly returns tickets
-                var playerWaitTime = Math.floor(Math.random() * 2500) + 2500;
-                console.log(playerWaitTime);
-                
-                score = score - ticketsGiven;
+            // after 10-15 seconds, player 2 sends tickets back
+            setTimeout(function(){
+                score = score + returnAmount;
                 $j("#scoreValue").text(score);
-                
-                $j("#giveInterface").hide();
-                $j("#gaveNumber").text(ticketsGiven);
-                $j("#receiveNumber").text(tripleTickets);
-                $j("#returnedTickets").hide();
-                $j("#waitForReturn").show();
-                $j("#waitForMove").show();
-                
-                // after 10-15 seconds, player 2 sends tickets back
-                setTimeout(function(){
-                    score = score + returnAmount;
-                    $j("#scoreValue").text(score);
-                    $j("#waitForMove").hide();
-                    $j("#returnedNumber").text(returnAmount);
-                    $j("#punishmentNumber").text(punishmentAmount);
-                    $j("#returnedTickets").show();
-                    $j("#scoreValue").text(score);
-                    $j("#showEndButton").hide();
+                $j("#waitForMove").hide();
+                $j("#returnedNumber").text(returnAmount);
+                $j("#punishmentNumber").text(punishmentAmount);
+                $j("#returnedTickets").show();
+                $j("#scoreValue").text(score);
+                $j("#showEndButton").hide();
                     
-                    // if the player is the controller, give option to punish;
-                    // otherwise, end the round
-                    if (controller == 1){
-                        $j("punishmentNumber").text(punishmentAmount);
-                        $j("lostNumber").text(punishmentAmount);
-                        $j("#controllerOption").show();
-                    } else {
-                        endRound(0);
-                    }
-                },playerWaitTime);
-            }
-            
-            
+                // if the player is the controller, give option to punish;
+                // otherwise, end the round
+                if (controller == 1){
+                    $j("punishmentNumber").text(punishmentAmount);
+                    $j("lostNumber").text(punishmentAmount);
+                    $j("#controllerOption").show();
+                } else {
+                    endRound(0);
+                }
+            },playerWaitTime);
         }
+    }
         
-        // display the final results of the round and allow the player to end it
-        function endRound(punished){
-            
-            punishes[round - 1] = punished;
-            console.log("Round: " + round + "; Results, punishes: " + punishes[round - 1]);
-            
-            
+    // display the final results of the round and allow the player to end it
+    function endRound(punished){            
+        punishes[round - 1] = punished;
+        console.log("Round: " + round + "; Results, punishes: " + punishes[round - 1]);
+        $j("#controllerOption").hide();
+        round = round + 1;
+        if (punished == 1){
             $j("#controllerOption").hide();
-            round = round + 1;
-            if (punished == 1){
-                $j("#controllerOption").hide();
-                $j("#showEndButton").show();
-                $j("#punishmentSuccess").show();
-            } else {
-                $j("#showEndButton").show();
-            }
-        
+            $j("#showEndButton").show();
+            $j("#punishmentSuccess").show();
+        } else {
+            $j("#showEndButton").show();
         }
+    }
          
-<!-- End code that goes into the JavaScript editor for the question -->
+    /* *************************************************************************
+        END JAVASCRIPT
+        
+        Copy and paste the code above through the BEGIN JAVASCRIPT comment into
+        the javascript editor for the question.
+    ************************************************************************* */
 </script>
 
 
-<!-- Begin question text -->    
-    
+<!-- ***************************************************************************
+    BEGIN QUESTION TEXT
+        
+    Copy and paste the code below through the END QUESTION TEXT comment into
+    the html editor for the question.
+**************************************************************************** -->     
 <div id="gameboard" style="height:560px; background-color: #f7fcf0; border-style: solid; border-width: 5px; border-color: #081d58; padding: 10px; font-family: Arial, Helvetica, sans-serif; color: #081d58;">
       <div id="topBox" style="display:none; width: 465px; margin-left: auto; margin-right: auto;">
           <div id="playerBox" class="infoBox" style="display:none; width:95px; background-color: #253494; border-style: solid; border-width: 5px; border-color: #081d58; padding: 5px; margin: 10px; font-family: Arial, Helvetica, sans-serif; color: #ffffff; float: left; text-align: center;">
@@ -438,4 +438,9 @@ Qualtrics.SurveyEngine.addOnload(function()
         </div>
     </div>
     <div id="imageCredit"><div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0.</a> <a href="http://www.flaticon.com/packs/cute-animals">Available here.</a></div>
-<!-- End question text -->    
+<!-- ***************************************************************************
+    END QUESTION TEXT
+        
+    Copy and paste the code above through the BEGIN QUESTION TEXT comment into
+    the html editor for the question.
+**************************************************************************** -->   
