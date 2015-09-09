@@ -20,3 +20,8 @@ The game contains several modifications to the classic trust game:
 + On half (randomly assigned) of the rounds, Player 1 is allowed to punish Player 2 if s/he thinks Player 2 played unfairly.
 
 A working demo of the game with 4 rounds can be played at http://www.erikasalomon.com/trust
+
+## Using the Game
+This game was written to work within Qualtrics survey software; however, if you are comfortable with web development, you may use the index.html and game-style.css pages to create your own implementation. If you are using Qualtrics, the simplest way to implement the trust game is to import the Trust_Game_Template.qsf file into Qualtrics. This will default to a 20 round game with 10 "controller" (punishment option) rounds. 
+
+Once you have the template imported, you will need to upload the graphics used in the game to your Qualtrics account and update the links in the javascript to use those files. 
