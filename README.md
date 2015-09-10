@@ -1,10 +1,10 @@
 # Trust Game with Punishment
-This is a Javascript implementation of modified multi-round trust game with a simulated second player, developed for my dissertation. 
+This is a Javascript implementation of a modified multi-round trust game with a simulated second player, developed for my dissertation. 
 
-A working demo of the game with 4 rounds can be played at http://www.erikasalomon.com/trust
+A [working demo of the game](http://www.erikasalomon.com/trust) with 4 rounds is available.
 
 ## Classic Trust Game
-In the classic trust game, the first player is given an amount of money and must decide how much money to entrust to the second player. The money given to the second player is tripled by the experimenter. The second player then decides how much money to return to player 1, and the game concludes. And example game my be run as follows:
+The [classic trust game](https://en.wikibooks.org/wiki/Bestiary_of_Behavioral_Economics/Trust_Game) is an economic game for two players, where the outcome relies on trust between the players. The first player is given an amount of money and must decide how much money to entrust to the second player. This amount is passed to the second player by the experimenter, who triples it before giving it to the second player. The second player then decides how much money to return to player 1, and the game concludes. An example game my proceed as follows:
 
 + Player 1 receives $10
 + Player 1 gives $8 to player 2
@@ -19,14 +19,14 @@ The game contains several modifications to the classic trust game:
 + Player 2 is simulated by the computer
 + Instead of money, participants are playing with raffle tickets
 + Players complete multiple rounds, each round being matched against a "different" simulated player 2
-+ On half (randomly assigned) of the rounds, Player 1 is allowed to punish Player 2 if they think Player 2 played unfairly.
++ On half (randomly assigned) of the rounds, Player 1 is allowed to punish player 2 if they think Player 2 played unfairly.
 
 The second player is programmed to follow one of two rules (randomly assigned at the beginning of the game):
 
 1. Player 2 is always generous, returning 40% to 60% of the tickets received to player 1 (exact amount randomly determined each round)
 2. Player 2 behaves differently depending on whether the first player has the power to punish the second player:
-  + When player 1 *cannot* punish: Player 2 behaves generously, as under the first rule 
-  + When player 1 *can* punish: Player 2 behaves selfishly, returning 0% to 20% of the tickets they receive (exact amount randomly determined each round)
+  + **When player 1 *CANNOT* punish:** Player 2 behaves generously, as under the first rule 
+  + **When player 1 *CAN* punish:** Player 2 behaves selfishly, returning 0% to 20% of the tickets they receive (exact amount randomly determined each round)
 
 ## Using the Game
 This game was written to work within Qualtrics survey software; however, if you are comfortable with web development, you may use the index.html and game-style.css pages to create your own implementation. 
