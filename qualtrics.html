@@ -37,10 +37,18 @@
     /* *********************************************************************
         Update settings for game here.
     ********************************************************************* */
-    var controllerMax = 12; // how many times should player be Controller?
-    var roundMax = 24; // how many rounds will the player play?
-    var qualtrics = true; 
-        
+    var controllerMax = 15; // how many times should player be Controller?
+    var roundMax = 30;      // how many rounds will the player play?
+    var qualtrics = true;   // set to 'true' to send data to Qualtrics
+    var blockTrials = true; // are the Controller assignments blocked (true)
+                               // or are they randomly dispersed (false)
+    var highLow = true;     // can Player 2 be Controller?
+    var stingyMin = 0;      // min prop. tickets returned by stingy player
+    var stingyMax = 0;      // max prop. tickets returned by stingy player
+    var generousMin = .6;    // min prop. tickets returned by generous player
+    var generousMax = .7;    // max prop. tickets returned by generous player
+    var fairMin = .45;        // min prop. tickets returned by fair player
+    var fairMax = .55;        // max prop. tickets returned by fair player
         
     /* *********************************************************************
         Update this file list with paths to your *locally hosted* files (for
@@ -48,7 +56,7 @@
     ********************************************************************* */
     var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_"; // root URL for image files
     var avatarFiles = new Array();
-    avatarFiles.push("https://s.qualtrics.com/ControlPanel/File.php?F=F_4VMOAvQA1AESFJX");
+    avatarFiles.push(root+"4VMOAvQA1AESFJX");
     avatarFiles.push(root+"a8E4fq4HMIw3wRn");
     avatarFiles.push(root+"41qtXpnDxiLoTnT");
     avatarFiles.push(root+"57M3YRh0kfWpdpr");
