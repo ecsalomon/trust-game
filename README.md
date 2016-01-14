@@ -18,19 +18,23 @@ The game contains several modifications to the classic trust game:
 
 + Player 2 is simulated by the computer
 + Instead of money, participants are playing with raffle tickets
-+ Players complete multiple rounds, each round being matched against a "different" simulated player 2
++ Players complete multiple rounds, each round being matched against a "different" simulated Player 2
 + On half (randomly assigned) of the rounds, Player 1 is allowed to punish player 2 if they think Player 2 played unfairly.
 
 The second player is programmed to follow one of two rules (randomly assigned at the beginning of the game):
 
 1. Player 2 is always generous, returning 40% to 60% of the tickets received to player 1 (exact amount randomly determined each round)
-2. Player 2 behaves differently depending on whether the first player has the power to punish the second player:
+2. Player 2 behaves differently depending on whether the first player has the power to punish the Player 2:
   + **When player 1 *CANNOT* punish:** Player 2 behaves generously, as under the first rule 
   + **When player 1 *CAN* punish:** Player 2 behaves selfishly, returning 0% to 20% of the tickets they receive (exact amount randomly determined each round)
 
 ## Using the Game
 This game was written to work within Qualtrics survey software; however, if you are comfortable with web development, you may use the index.html and game-style.css pages to create your own implementation. 
 
-If you are using Qualtrics, the simplest way to implement the trust game is to import the Trust_Game_Template.qsf file into Qualtrics. This will default to a 24 round game with 12 "controller" (punishment option) rounds. If you wish to change the number of rounds, you will need to update the javascript in the game "question" and update the survey flow so that the correct variables are present.
+If you are using Qualtrics, the simplest way to implement this trust game is to import the Trust_Game_Template.qsf file into Qualtrics. This will default to a 24 round game with 12 "controller" (punishment option) rounds. If you wish to change the number of rounds, you will need to update the javascript in the game "question." To do this, click on the organge "JS" button next to the question titled "game" and edit the section of the code that looks like this:
+
+![Game settings](/gamesettings.png) 
+
+If you change number of rounds, you will also need to update the embedded variables in the survey flow. For each round *X*, your survey flow will need to have the variables *controllerX* (whether Player 1 was controller that round), *gaveX* (how many tickets Player 1 gave that round), *returnedX* (how many tickets Player 2 returned that round), and *punishX* (whether Player 1 punished Player 2 that round) to store the results of the game. The survey template defaults to 24 rounds with the appropriate variables in the survey flow. If you change the number of rounds, you will need to add or subtract the appropriate number of variables from your survey flow.
 
 Once you have the template imported, you will need to upload the graphics used in the game to your Qualtrics account and update the links in the javascript to use those files. 
