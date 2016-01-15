@@ -18,14 +18,13 @@
                 var var2 = 'gave'+(i+1);
                 var var3 = 'returned'+(i+1);
                 var var4 = 'punish'+(i+1);
-                Qualtrics.SurveyEngine.setEmbeddedData(var1, isController[i]);
+                Qualtrics.SurveyEngine.setEmbeddedData(var1,controllerArray[i]);
                 Qualtrics.SurveyEngine.setEmbeddedData(var2, gives[i]);
                 Qualtrics.SurveyEngine.setEmbeddedData(var3, returned[i]);
                 Qualtrics.SurveyEngine.setEmbeddedData(var4, punishes[i]);
-                Qualtrics.SurveyEngine.setEmbeddedData(var4, is2controller[i]);
             }
             Qualtrics.SurveyEngine.setEmbeddedData('score', score);
-            Qualtrics.SurveyEngine.setEmbeddedData('training', trainingCondition);
+            Qualtrics.SurveyEngine.setEmbeddedData('training',trainingCondition);
             this.clickNextButton();
 		}
 	} 
@@ -44,21 +43,25 @@
                                 or are they fully randomized (false) */
     var stingyMin = .0;      // min prop. tickets returned by stingy player
     var stingyMax = .1;      // max prop. tickets returned by stingy player
+                                // stingy: association + Player 1 Controller
     var generousMin = .6;    // min prop. tickets returned by generous player
     var generousMax = .7;    // max prop. tickets returned by generous player
+                                // generous: association + Player 2 Controller
     var fairMin = .45;       // min prop. tickets returned by fair player
     var fairMax = .55;       // max prop. tickets returned by fair player
+                                // fair: no association OR no Controller
         
     /* ***********************************************************************
         Update this file list with paths to your *locally hosted* files (for
         example, files hosted on *your* Qualtrics account or your server).
     *********************************************************************** */
-    var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_"; // root URL for image files
+    // root URL for image files in Qualtrics file system
+    var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_";
     var avatarFiles = new Array();
     avatarFiles.push(root+"4VMOAvQA1AESFJX"); // unique file ids
-    avatarFiles.push(root+"a8E4fq4HMIw3wRn");
-    avatarFiles.push(root+"41qtXpnDxiLoTnT");
-    avatarFiles.push(root+"57M3YRh0kfWpdpr");
+    avatarFiles.push(root+"a8E4fq4HMIw3wRn"); // upload the avatars to Qualtrics
+    avatarFiles.push(root+"41qtXpnDxiLoTnT"); // and change the ids to match
+    avatarFiles.push(root+"57M3YRh0kfWpdpr"); // your copies
     avatarFiles.push(root+"3sWu55iUZaIVoJn");
     avatarFiles.push(root+"e3su4OeukxIY9CZ");
     avatarFiles.push(root+"0oiJckoSOfpKTnD");
@@ -88,14 +91,15 @@
         
     // *** Initialize variables ***
     var score = 0; // how many tickets has the player won so far?
-    var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
+    var punish = 0; // did player punish Player 2 this round? 0 = no; 1 = yes
     var round = 1; // what round is it?
     var gives = []; // array of amount given each round
     var returned = []; // array of amount returned by Player 2 each round
     var punishes = []; // array of whether punishments were given or not
-    var trainingCondition = Math.round(Math.random() ); // set training condition in game
+    var trainingCondition = Math.round(Math.random() ); // set training cond
     var index = 0;
     var controllerArray = new Array; // an array of assignments to Controller
+    var controller; // who is controller this round? 
     
 
     // shuffle an array
@@ -111,18 +115,23 @@
 
     // fill array of controller assignments
     function assignController() {
-        var n0 = roundMax - controller1Max - controller2Max; // how many no Controller rounds?
-        var blockArray = shuffleArray([0, 1, 2]); // randomize order of Controller assignment blocks
+        // how many no Controller rounds?
+        var n0 = roundMax - controller1Max - controller2Max;
+        // randomize order of Controller assignment blocks
+        var blockArray = shuffleArray([0, 1, 2]); 
         var counts = [n0, n1, n2];
 
         // if there are too many controller rounds, make an alert
         if (n0 < 0) {
-            alert("The number of rounds (" + nMax + ") is less than the number needed for Player 1 to be Controller " + n1 + " times AND Player 2 to be Controller " + n2 + " times. Please fix this error in the game settings before running the game.");
+            alert("The number of rounds (" + nMax + ") is less than the number 
+                needed for Player 1 to be Controller " + n1 + " times AND Player
+                2 to be Controller " + n2 + " times. Please fix this error in 
+                the game settings before running the game.");
         }
 
         // build the array in blocks
         for (i in blockArray) {
-            j = 0;
+            var j = 0;
             while (j < counts[blockArray[i]]) {
                 controllerArray.push(blockArray[i]);
                 j++;
@@ -153,7 +162,7 @@
 
     // Start a round
     function startRound(){
-        // if the game is over, show the continue button and let the player leave
+        // if game is over, show the continue button and let the player leave
         // otherwise, start a new round of the game
         $j("#controllerOption").hide();
         $j("#returnedTickets").hide();
@@ -179,40 +188,12 @@
             // randomly select an avatar for Player 2
             var player2 = Math.floor(Math.random()*30);
             var player2uri = avatarFiles[player2];                
-            var sentTickets = 0; // how many tickets has the player sent this round?
-            var returnedTickets = 0; // how many tickets returned to the player this round?
+            var sentTickets = 0; // how many tickets has player sent this round?
+            var returnedTickets = 0; // how many tickets returned to player?
         
-            // is either player Controller this round? 0 = no; 1 = yes
-            // first, initialize the variable to 0
-            controller1 = 0;
-            controller2 = 0;
-            // then, check if the number of rounds remaining is the same as
-            // the number of  P1 controller rounds remaining, make the player
-            // controller. if not, if number of P2 controller rounds remaining
-            // is same as number of rounds remaining, make P2 controller. if
-            // not, randomize controller assignment.
-            var roundsRemaining = roundMax - round + 1; // how many rounds remaining?
-            var controllers1Remaining = controller1Max - controller1Count; // how many P1 controller rounds remaining?
-            var controllers2Remaining = controller2Max - controller2Count; // how many P2 controller rounds remaining?
-            if ( roundsRemaining <= controllersRemaining){
-                controller1 = 1;
-            } else if ( roundsRemaining <= controllers2Remaining){
-                    controller2 = 1;
-                } else if (controller1Count < controller1Max) {}
-                controller = Math.round(Math.random() );
-            }
-                
-            is1Controller[round - 1] = controller1;
-            is2Controller[round - 1] = controller2;
-            console.log("Round: " + round + "; Results, controller: " + isController[round - 1]);
-        
-            // if player is controller, increment controller counter
-            if (controller == 1){
-                controllerCount = controllerCount + 1;
-            }
-            if (controller2 == 1){
-                controller2Count = controller2Count + 1;
-            }
+            // who is controller this round?
+            controller = controllerArray[round - 1];
+            console.log("Round: " + round + "; Controller: " + controller);
                 
             // When the round begins, hide the avatar selection and show the
             // player that they are assigned to Player 1
@@ -228,13 +209,19 @@
             $j("#scoreBox").show();
             $j("#playerBox").show();
                 
-            // tell the player whether they are the controller
+            // tell the player who is controller
             if (controller == 1){
                 $j("#noController").hide();
                 $j("#youAreController").show();
+                $j("#player2isController").hide();
+            } else if (controller == 2){
+                $j("#noController").hide();
+                $j("#youAreController").hide();
+                $j("#player2isController").show();
             } else {
                 $j("#noController").show();
                 $j("#youAreController").hide();
+                $j("#player2isController").hide();
             }
         
             // after a few seconds, the round begins
@@ -244,7 +231,7 @@
                 $j("#avatarBox").show();
                 $j('#loadingMatch').hide();
                 $j('#playRound').show();
-            },playerWaitTime);   
+            }, playerWaitTime);   
         }
     }
 
@@ -262,43 +249,66 @@
         document.querySelector('#currentGiveValue').value = give;
     }
         
-    // wait for player 2 to return tickets, give the controller the option to punish, and then end the round
+    /* wait for player 2 to return tickets, give the controller the option to 
+    punish, and then end the round */
     function returnTickets(){
-        var ticketsGiven = document.getElementById("giveNumber").value; // how many tickets did player give?
+        // initialize variables
+        var ticketsGiven = document.getElementById("giveNumber").value;
+        var p1amountKept = 100 - ticketsGiven; // # of tickets player 1 keeps?
+        var tripleTickets; // how many tickets are given to Player 2?
+        var returnPercent; // what proportion of tickets does Player 2 return?
+        var returnAmount; // what number of tickets does player 2 return?
+        var p2amountKept; // what number of tickets does player 2 keep?
+        var punishmentAmount = 0; // how many tickets is the punishment worth?
+        var playerWaitTime; // how long to wait for P2 to move
+        var p2punish = false; // does P2 punish?
+
         gives[round - 1] = ticketsGiven;
-        console.log("Round: " + round + "; Results, gives: " + gives[round - 1]);        
-            
-        if (ticketsGiven == 0){
+        console.log("Round: " + round + "; Results, gives: " +gives[round - 1]);        
+        
+        // if P1 gave 0 tickets & P2 is not Controller, skip P2's turn    
+        if (ticketsGiven == 0 & controller != 2){
             $j("#giveInterface").hide();
             $j("#noSharing").show();
             returned[round - 1] = ticketsGiven;
-            console.log("Round: " + round + "; Results, returned: " + returned[round - 1]);
+            console.log("Round: " + round + "; Results, returned: " + 
+                returned[round - 1]);
             endRound(0);
-        } else {
-            var tripleTickets = ticketsGiven * 3; // triple the number of tickets given
-            var returnPercent = Math.random() * .2 + .4; // default percent of tickets returned by Player 2
-                
-            // if the player is in the association condition and is controller,
-            // change the number of tickets returned to a lower value
-            if (controller == 1 & trainingCondition == 1){
-                returnPercent = Math.random() * .2;
-            }
+        } else { // player 2's turn
+            tripleTickets = ticketsGiven * 3; // triple number of tickets given
             
-            var returnAmount = Math.floor(tripleTickets * returnPercent); // how many tickets returned?
-            returned[round - 1] = returnAmount;
-            console.log("Round: " + round + "; Results, returns: " + returned[round - 1]);
+            // determine how many tickets to return/keep
+            if (trainingCondition == 0 || controller = 0) {
+                returnPercent = Math.random() * (fairMax - fairMin) + fairMin; 
+            } else if (controller == 1) {
+                returnPercent = Math.random() * (stingyMax - stingyMin) + stingyMin;
+            } else {
+                returnPercent = Math.random() * (generousMax - generousMin) + generousMin; 
+            }
+            returnAmount = Math.floor(tripleTickets * returnPercent);
+            returned[round - 1] = returnAmount; // store in array
+            console.log("Round: " + round + "; Results, returns: " + 
+                returned[round - 1]);
             console.log(returnAmount);
-            var amountKept = tripleTickets - returnAmount;
-            var punishmentAmount = Math.round(amountKept / 3);
+            p2amountKept = tripleTickets - returnAmount;
+            
+            // determine value of punishment
+            if (controller == 1) {
+                punishmentAmount = Math.round(p2amountKept / 3);
+            } else if (controller == 2) {
+                punishmentAmount = Math.round(p1amountKept / 3);
+            }
                 
             // Generate a random number from 2500 to 5000 that defines how
             // many ms player waits before Player 2 supposedly returns tickets
-            var playerWaitTime = Math.floor(Math.random() * 2500) + 2500;
+            playerWaitTime = Math.floor(Math.random() * 2500) + 2500;
             console.log(playerWaitTime);
-                
+            
+            // update score to reflect tickets given
             score = score - ticketsGiven;
             $j("#scoreValue").text(score);
-                
+            
+            // tell P1 to wait for return
             $j("#giveInterface").hide();
             $j("#gaveNumber").text(ticketsGiven);
             $j("#receiveNumber").text(tripleTickets);
@@ -306,8 +316,12 @@
             $j("#waitForReturn").show();
             $j("#waitForMove").show();
                 
-            // after 10-15 seconds, player 2 sends tickets back
+            // after 2.5-5s, P2 sends tickets back & punishes if Controller
             setTimeout(function(){
+                // P2 punishes if Controller & P1 gave < 40-60% of tickets;
+                if (controller == 2 & ticketsGiven) {
+
+                }
                 score = score + returnAmount;
                 $j("#scoreValue").text(score);
                 $j("#waitForMove").hide();
@@ -326,7 +340,7 @@
                 } else {
                     endRound(0);
                 }
-            },playerWaitTime);
+            }, playerWaitTime);
         }
     }
         
