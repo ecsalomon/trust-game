@@ -12,51 +12,50 @@
        
         // Save the results to Qualtrics   
 	this.questionclick = function(event,element){
-		if(element.type == 'radio')
-		{
-			
-                    for (var i = 0; i < roundMax; i++) {
-			var var1 = 'controller'+(i+1);
-			var var2 = 'gave'+(i+1);
-			var var3 = 'returned'+(i+1);
-			var var4 = 'punish'+(i+1);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var1, isController[i]);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var2, gives[i]);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var3, returned[i]);
-                        Qualtrics.SurveyEngine.setEmbeddedData(var4, punishes[i]);
-                    }
-                    Qualtrics.SurveyEngine.setEmbeddedData('score', score);
-                    Qualtrics.SurveyEngine.setEmbeddedData('training', trainingCondition);
-                    this.clickNextButton();
+		if(element.type == 'radio') {
+            for (var i = 0; i < roundMax; i++) {
+                var var1 = 'controller'+(i+1);
+                var var2 = 'gave'+(i+1);
+                var var3 = 'returned'+(i+1);
+                var var4 = 'punish'+(i+1);
+                Qualtrics.SurveyEngine.setEmbeddedData(var1, isController[i]);
+                Qualtrics.SurveyEngine.setEmbeddedData(var2, gives[i]);
+                Qualtrics.SurveyEngine.setEmbeddedData(var3, returned[i]);
+                Qualtrics.SurveyEngine.setEmbeddedData(var4, punishes[i]);
+                Qualtrics.SurveyEngine.setEmbeddedData(var4, is2controller[i]);
+            }
+            Qualtrics.SurveyEngine.setEmbeddedData('score', score);
+            Qualtrics.SurveyEngine.setEmbeddedData('training', trainingCondition);
+            this.clickNextButton();
 		}
 	} 
     });
 
 
 
-    /* *********************************************************************
+    /* ***********************************************************************
         Update settings for game here.
-    ********************************************************************* */
-    var controllerMax = 15; // how many times should player be Controller?
-    var roundMax = 30;      // how many rounds will the player play?
-    var qualtrics = true;   // set to 'true' to send data to Qualtrics
-    var blockTrials = true; // are the Controller assignments blocked (true)
-                               // or are they randomly dispersed (false)
-    var highLow = true;     // can Player 2 be Controller?
-    var stingyMin = 0;      // min prop. tickets returned by stingy player
-    var stingyMax = 0;      // max prop. tickets returned by stingy player
+    *********************************************************************** */
+    var controller1Max = 15; // how many times should Player 1 be Controller?
+    var controller2max = 15; // how many times should Player 2 be controller?
+    var roundMax = 30;       // how many rounds will the player play?
+    var qualtrics = true;    // set to 'true' to send data to Qualtrics
+    var blockTrials = true;  /* are the Controller assignments blocked (true)
+                                or are they fully randomized (false) */
+    var stingyMin = .0;      // min prop. tickets returned by stingy player
+    var stingyMax = .1;      // max prop. tickets returned by stingy player
     var generousMin = .6;    // min prop. tickets returned by generous player
     var generousMax = .7;    // max prop. tickets returned by generous player
-    var fairMin = .45;        // min prop. tickets returned by fair player
-    var fairMax = .55;        // max prop. tickets returned by fair player
+    var fairMin = .45;       // min prop. tickets returned by fair player
+    var fairMax = .55;       // max prop. tickets returned by fair player
         
-    /* *********************************************************************
+    /* ***********************************************************************
         Update this file list with paths to your *locally hosted* files (for
         example, files hosted on *your* Qualtrics account or your server).
-    ********************************************************************* */
+    *********************************************************************** */
     var root = "https://s.qualtrics.com/ControlPanel/File.php?F=F_"; // root URL for image files
     var avatarFiles = new Array();
-    avatarFiles.push(root+"4VMOAvQA1AESFJX");
+    avatarFiles.push(root+"4VMOAvQA1AESFJX"); // unique file ids
     avatarFiles.push(root+"a8E4fq4HMIw3wRn");
     avatarFiles.push(root+"41qtXpnDxiLoTnT");
     avatarFiles.push(root+"57M3YRh0kfWpdpr");
@@ -90,15 +89,53 @@
     // *** Initialize variables ***
     var score = 0; // how many tickets has the player won so far?
     var punish = 0; // did the player punish Player 2 this round? 0 = no; 1 = yes
-    var controllerCount = 0; // how many times has the player been Controller?
     var round = 1; // what round is it?
-    var isController = []; // array of assignments to controller or not
     var gives = []; // array of amount given each round
     var returned = []; // array of amount returned by Player 2 each round
     var punishes = []; // array of whether punishments were given or not
     var trainingCondition = Math.round(Math.random() ); // set training condition in game
     var index = 0;
-        
+    var controllerArray = new Array; // an array of assignments to Controller
+    
+
+    // shuffle an array
+    function shuffleArray(myArray) {
+        for (var i = myArray.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = myArray[i];
+            myArray[i] = myArray[j];
+            myArray[j] = temp;
+        }
+        return myArray;
+    }
+
+    // fill array of controller assignments
+    function assignController() {
+        var n0 = roundMax - controller1Max - controller2Max; // how many no Controller rounds?
+        var blockArray = shuffleArray([0, 1, 2]); // randomize order of Controller assignment blocks
+        var counts = [n0, n1, n2];
+
+        // if there are too many controller rounds, make an alert
+        if (n0 < 0) {
+            alert("The number of rounds (" + nMax + ") is less than the number needed for Player 1 to be Controller " + n1 + " times AND Player 2 to be Controller " + n2 + " times. Please fix this error in the game settings before running the game.");
+        }
+
+        // build the array in blocks
+        for (i in blockArray) {
+            j = 0;
+            while (j < counts[blockArray[i]]) {
+                controllerArray.push(blockArray[i]);
+                j++;
+            }
+        }
+
+        // if blocking in NOT desired, shuffle all assignments
+        if (blocking == false) {
+            controllerArray = shuffleArray(controllerArray);
+        }
+    }
+
+
     // When player starts the game, show them the avatar selection screen
     function showAvatars() {
         console.log("show avatars");
@@ -106,10 +143,11 @@
         $j("#selectAvatar").show();
     }
         
-    // show player's avatar
+    // show player's avatar & initialize game
     function pickAvatar(whichAvatar) {
         var player1uri = avatarFiles[whichAvatar];
         $j('#player1image').attr('src', player1uri);
+        assignController();
         startRound();
     }
 
@@ -144,26 +182,36 @@
             var sentTickets = 0; // how many tickets has the player sent this round?
             var returnedTickets = 0; // how many tickets returned to the player this round?
         
-            // is the player Controller this round? 0 = no; 1 = yes
+            // is either player Controller this round? 0 = no; 1 = yes
             // first, initialize the variable to 0
-            controller = 0;
+            controller1 = 0;
+            controller2 = 0;
             // then, check if the number of rounds remaining is the same as
-            // the number of controller rounds remaining, make the player
-            // controller. if not, randomize whether the player is controller.
+            // the number of  P1 controller rounds remaining, make the player
+            // controller. if not, if number of P2 controller rounds remaining
+            // is same as number of rounds remaining, make P2 controller. if
+            // not, randomize controller assignment.
             var roundsRemaining = roundMax - round + 1; // how many rounds remaining?
-            var controllersRemaining = controllerMax - controllerCount; // how many controller rounds remaining?
+            var controllers1Remaining = controller1Max - controller1Count; // how many P1 controller rounds remaining?
+            var controllers2Remaining = controller2Max - controller2Count; // how many P2 controller rounds remaining?
             if ( roundsRemaining <= controllersRemaining){
-                controller = 1;
-            } else if (controllerCount < controllerMax){
+                controller1 = 1;
+            } else if ( roundsRemaining <= controllers2Remaining){
+                    controller2 = 1;
+                } else if (controller1Count < controller1Max) {}
                 controller = Math.round(Math.random() );
             }
                 
-            isController[round - 1] = controller;
+            is1Controller[round - 1] = controller1;
+            is2Controller[round - 1] = controller2;
             console.log("Round: " + round + "; Results, controller: " + isController[round - 1]);
         
             // if player is controller, increment controller counter
             if (controller == 1){
                 controllerCount = controllerCount + 1;
+            }
+            if (controller2 == 1){
+                controller2Count = controller2Count + 1;
             }
                 
             // When the round begins, hide the avatar selection and show the
@@ -182,10 +230,10 @@
                 
             // tell the player whether they are the controller
             if (controller == 1){
-                $j("#youAreNotController").hide();
+                $j("#noController").hide();
                 $j("#youAreController").show();
             } else {
-                $j("#youAreNotController").show();
+                $j("#noController").show();
                 $j("#youAreController").hide();
             }
         
@@ -427,7 +475,8 @@
           </div>
           <div id="matchingPlayers" style="display:none;">
               <span id="youAreController"><span style="font-weight:bold;">You will be Controller this round!</span> If you feel Player 2 plays unfairly, you will have the opportunity to punish them when the round is over.</span>
-              <span id="youAreNotController"><span style="font-weight:bold;">There will be no Controller this round.</span> The decisions made by both players will be final.</span>
+              <span id="noController"><span style="font-weight:bold;">There will be no Controller this round.</span> The decisions made by both players will be final.</span>
+              <span id="player2isController"><span style="font-weight:bold;">Player 2 will be Controller this round.</span> If Player 2 feels you play unfairly, they will have the opportunity to punish you when the round is over.</span>
               <br><br>
               <div id="loadingMatch" style="display:none;">Matching you with a player for Round <span id="matchRoundNumber"></span>. . . .<br><br>
                 <img src="https://s.qualtrics.com/ControlPanel/File.php?F=F_cuLNvJBnRzXU2RD" id="matchLoadBar">
