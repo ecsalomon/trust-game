@@ -28,7 +28,7 @@ The second player is programmed to follow one of two rules (randomly assigned at
 2. Player 2 behaves differently depending on who has the ability to punish:
   + **When *Player 1* can punish:** Player 2 behaves stingily, returning 0% to 10% of the tickets they receive (exact amount randomly determined each round)
   + **When *Player 2* can punish:** Player 2 behaves generously, returning 60% to 70% of the tickets they receive (exact amount randomly determined each round)
-  + **When *no one* has the ability to punish:** Player 2 behaved fairly, returning 45% to 55% of the tickets they receive(exact amount randomly determined each round)
+  + **When *no one* can punish:** Player 2 behaves fairly, returning 45% to 55% of the tickets they receive(exact amount randomly determined each round)
 
 The number of rounds played; the number of times each player has the ability to punish; the exact percentages of tickets returned by the fair, generous, and stingy Player 2; and whether the punishment assignments are blocked or randomized can be adjusted in the game settings.
 
