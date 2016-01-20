@@ -19,8 +19,8 @@
 
 #topBox {
     width: 465px !important;
-    margin-left: auto !IMPORTANT;
-    margin-right: auto !IMPORTANT;    
+    margin-left: auto !important;
+    margin-right: auto !important;    
 }
 
 .avatarIcon {
