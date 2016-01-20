@@ -1,7 +1,7 @@
 # Trust Game with Punishment
 This is a Javascript implementation of a modified multi-round trust game with a simulated second player, developed for my dissertation. 
 
-A [working demo of the game](http://www.erikasalomon.com/trust) with 4 rounds is available.
+A [working demo of the game](http://www.erikasalomon.com/trust) with 12 rounds is available.
 
 ## Classic Trust Game
 The [classic trust game](https://en.wikibooks.org/wiki/Bestiary_of_Behavioral_Economics/Trust_Game) is an economic game for two players, where the outcome relies on trust between the players. The first player is given an amount of money and must decide how much money to entrust to the second player. This amount is passed to the second player by the experimenter, who triples it before giving it to the second player. The second player then decides how much money to return to player 1, and the game concludes. An example game may proceed as follows:
