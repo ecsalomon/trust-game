@@ -160,6 +160,7 @@
         }
     });
 
+
     // shuffle an array
     function shuffleArray(myArray) {
         for (var i = myArray.length - 1; i > 0; i--) {
@@ -226,6 +227,7 @@
             $j("#finalScore").text(score);
             $j('#gameOver').show();
             $j("fieldset > .QuestionBody").show();
+            $j("#Buttons").hide();
         } else {
             // reset the slider to 0
             document.getElementById("giveNumber").value = 0;
@@ -720,8 +722,8 @@
             You have earned <span id="finalScore"></span> tickets for the $50
             raffle!<br><br>
 
-            Press the continue button at the bottom of the page to end the game
-            and continue with the survey.<br><br>
+            Press the continue button below to end the game and continue with
+            the survey.<br><br>
         </div>
     </div>
 
