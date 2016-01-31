@@ -1,0 +1,45 @@
+<script>
+    /* *************************************************************************
+        BEGIN JAVASCRIPT
+        
+        Copy and paste the code below through the END JAVASCRIPT comment into
+        the javascript editor for the question.
+    ************************************************************************* */ 
+    
+
+    // save the code when the page loads
+    Qualtrics.SurveyEngine.addOnload(function(){		
+        var colors = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo",
+            "Violet", "Pink", "Gold", "Aqua", "Turquoise", "Purple", "White",
+            "Gray", "Black", "Brown", "Silver", "Bronze", "Beige", "Cream"];
+
+        var animals = ["Cat", "Dog", "Wolf", "Tiger", "Lion", "Coyote",
+            "Rabbit", "Fish", "Bunny", "Cheetah", "Kangaroo", "Squirrel",
+            "Mole", "Frog", "Bird", "Toad", "Lizard", "Parrot", "Lobster",
+            "Crab"];
+
+        var vehicles = ["Plane", "Train", "Car", "Truck", "Van", "Jet", "Ship",
+            "Boat", "Bus", "Bike", "Wagon", "Tractor", "Taxi", "Ferry", "Cab",
+            "Auto", "Kayak", "Canoe", "Raft", "Shuttle"];
+
+        var c = Math.floor(Math.random() * colors.length);
+        var a = Math.floor(Math.random() * animals.length);
+        var v = Math.floor(Math.random() * vehicles.length);
+        var digit1 = Math.round(Math.random() * 9);
+        var digit2 = Math.round(Math.random() * 9);
+
+        var code = colors[c] + animals[a] + vehicles[v] + digit1 + digit2;
+
+        Qualtrics.SurveyEngine.setEmbeddedData('code', code);
+
+    }
+         
+    /* *************************************************************************
+        END JAVASCRIPT
+        
+        Copy and paste the code above through the BEGIN JAVASCRIPT comment into
+        the javascript editor for the question.
+    ************************************************************************* */
+</script>
+
+
