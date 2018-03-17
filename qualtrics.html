@@ -12,6 +12,11 @@
     var controller1Max = 15; // how many times should P1 be Controller?
     var controller2Max = 15; // how many times should P2 be controller?
     var roundMax = 30;       // how many rounds in game?
+    var roundValue = 100;    /* how many tickets is each round worth?
+                                NOTE: If you change this value, you must
+                                      also change the max amount in the 
+                                      giveNumber slider below (simply
+                                      search for "giveNumber"). */
     var qualtrics = true;    // set to 'true' to send data to Qualtrics
     var blockTrials = true;  /* are Controller assignments blocked (true)
                                 or fully randomized (false) */
@@ -98,6 +103,7 @@
 
         console.log("ready!");
         console.log("Number of rounds: " + roundMax);
+        $j("#rValueIntro").text(roundValue);
         $j("#gameboard").show();
         $j("#waitForGame").hide();
         $j("fieldset > .QuestionBody").hide();
@@ -294,7 +300,8 @@
     function giveInterface() {
         $j('#matchingPlayers').hide();
         $j('#playRound').hide();
-        score = score + 100;
+        score = score + roundValue;
+        $j("#rValueGiven").text(roundValue);
         $j("#scoreValue").text(score);
         $j("#giveInterface").show();
     }
@@ -309,7 +316,7 @@
     function returnTickets(){
         // initialize variables
         var ticketsGiven = document.getElementById("giveNumber").value;
-        var p1amountKept = 100 - ticketsGiven; // # of tickets P1 keeps?
+        var p1amountKept = roundValue - ticketsGiven; // # of tickets P1 keeps?
         var tripleTickets = ticketsGiven * 3; // # of tickets given to P2?
         var returnPct; // what proportion of tickets does P2 return?
         var returnAmount; // what number of tickets does P2 return?
@@ -318,7 +325,7 @@
         var playerWaitTime; // how long to wait for P2 to move
         var p2punish = false; // does P2 punish?
         // how many tickets does P2 want to not punish?
-        var p2punishThreshold = Math.random() * 15;
+        var p2punishThreshold = Math.random() * (.15 * roundValue);
 
         gives[round - 1] = ticketsGiven;
         console.log("Round: " + round + "; Gives: " +gives[round - 1]);        
@@ -519,11 +526,14 @@
 
         <div id="message" style="width:80%;">
             <div id="giveInterface" style="display:none;">
-                You have been given 100 raffle tickets.<br><br>
+                You have been given 
+                <span id="rValueGiven" style="font-weight: bold;"></span> raffle 
+                tickets.<br><br>
                 How many tickets will you
                 <span style="font-weight:bold;">give</span> to Player 2?<br><br>
 
                 <div class="range-slider" data-slider>
+                    <!-- UPDATE THE MAX HERE IF roundValue IS NOT 100. -->
                     <input type="range" id="giveNumber" min=0 max=100 step=1
                     value=0 oninput="outputUpdate(value)">
                         <output for="giveNumber" id="currentGiveValue">0
@@ -606,8 +616,8 @@
             <br>You have been assigned to the role of
             <span style="font-weight:bold;">Player 1</span>!<br><br>
         
-            Each round, you will receive 100 raffle tickets and will be matched
-            with a different Player 2. <br><br>
+            Each round, you will receive <span id="rValueIntro"></span> raffle
+            tickets and will be matched with a different Player 2. <br><br>
             
             You may give as many of these tickets to Player 2 as you wish. Any
             tickets you give to Player 2 will be
