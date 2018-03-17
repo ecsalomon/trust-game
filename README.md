@@ -41,4 +41,6 @@ If you are using Qualtrics, the simplest way to implement this trust game is to 
 
 If you change number of rounds, you will also need to update the embedded variables in the survey flow. For each round *X*, your survey flow will need to have the variables *controllerX* (whether Player 1 was controller that round), *gaveX* (how many tickets Player 1 gave that round), *returnedX* (how many tickets Player 2 returned that round), and *punishX* (whether Player 1 punished Player 2 that round) to store the results of the game. The survey template defaults to 30 rounds with the appropriate variables in the survey flow. If you change the number of rounds, you will need to add or subtract the appropriate number of variables from your survey flow.
 
+If you change the value of each round, you will also need to change the maximum value of the slider the player sees when they are deciding how many tickets to give away.
+
 Once you have the template imported, you will need to upload the graphics used in the game to your Qualtrics account and update the links in the javascript to use those files. 
